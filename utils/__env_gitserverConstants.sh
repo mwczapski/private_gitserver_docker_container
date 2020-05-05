@@ -7,7 +7,7 @@
 
 declare -u __env_gitserverConstants="SOURCED"
 
-[[ ${__env_devcicd_net} ]] || source __env_devcicd_net.sh
+[[ ${__env_devcicd_net} ]] || source ./utils/__env_devcicd_net.sh
 
 # [[ ${GITSERVER_STATIC_SERVER_IP:-NO} == "NO" ]] \
 #   && {
@@ -15,8 +15,8 @@ declare -u __env_gitserverConstants="SOURCED"
 #     source ./utils/__env_devcicd_net.sh
 #   } || true
 
-readonly _GIT_HOST_PPORT_=50022
-readonly _GIT_GUEST_PPORT_=22
+readonly __GIT_HOST_PORT=50022
+readonly _GIT_GUEST_PORT_=22
 
 readonly __GIT_USERNAME="git"
 readonly __GITSERVER_USERNAME="gitserver"
@@ -28,8 +28,8 @@ readonly __GITSERVER_IMAGE_NAME="gitserver"
 readonly __GITSERVER_IMAGE_VERSION="1.0.0"
 readonly __GITSERVER_HOST_NAME="gitserver"
 readonly __GITSERVER_CONTAINER_NAME="gitserver"
-readonly __GITSERVER_MAPPED_PORTS="--publish=127.0.0.1:${_GIT_HOST_PPORT_}:${_GIT_GUEST_PPORT_}/tcp"
-         __GITSERVER_PORT_MAPPINGS[0]="127.0.0.1:${_GIT_HOST_PPORT_}:${_GIT_GUEST_PPORT_}/tcp"  # can't be readonly - gives exception
+readonly __GITSERVER_MAPPED_PORTS="--publish=127.0.0.1:${__GIT_HOST_PORT}:${_GIT_GUEST_PORT_}/tcp"
+         __GITSERVER_PORT_MAPPINGS[0]="127.0.0.1:${__GIT_HOST_PORT}:${_GIT_GUEST_PORT_}/tcp"  # can't be readonly - gives exception
 readonly __GITSERVER_ADDHOST="--add-host=${__GITSERVER_NAME}:${GITSERVER_STATIC_SERVER_IP}"
 readonly __GITSERVER_REPOS_ROOT="/opt/gitrepos"
 readonly __GITSERVER_GUEST_HOME="/home/${__GIT_USERNAME}"

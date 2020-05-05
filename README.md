@@ -7,12 +7,12 @@
   - [Assumed host environment](#assumed-host-environment)
   - [Assumed execution environment](#assumed-execution-environment)
   - [Installation](#installation)
-  - [Create Image script: 01_create_gitserver_image.sh](#create-image-script-01_create_gitserver_imagesh)
+  - [Create Git Server Docker Image: 01_create_gitserver_image.sh](#create-git-server-docker-image-01_create_gitserver_imagesh)
     - [Customisation](#customisation)
     - [Script invocation](#script-invocation)
     - [High-level build logic](#high-level-build-logic)
     - [Bill of Materials (of sorts)](#bill-of-materials-of-sorts)
-  - [Create and Run Docker Container script: 02_create_gitserver_container](#create-and-run-docker-container-script-02_create_gitserver_container)
+  - [Create and Run Docker Container: 02_create_gitserver_container](#create-and-run-docker-container-02_create_gitserver_container)
     - [Customisation](#customisation-1)
     - [Script invocation](#script-invocation-1)
     - [High-level logic](#high-level-logic)
@@ -20,6 +20,10 @@
       - [Windows Shortcuts](#windows-shortcuts)
       - [Host-Guest-Shared "backups" directory](#host-guest-shared-backups-directory)
       - [Custom Git commands accepted by the server over SSH](#custom-git-commands-accepted-by-the-server-over-ssh)
+  - [Create Remote Git Repository: 03_create_named_repo_in_private_gitserver.sh](#create-remote-git-repository-03_create_named_repo_in_private_gitserversh)
+    - [Customisation](#customisation-2)
+    - [Script invocation](#script-invocation-2)
+    - [High-level logic](#high-level-logic-1)
   - [Dependencies](#dependencies)
   - [To-Do](#to-do)
   - [Licensing](#licensing)
@@ -119,7 +123,7 @@ OR
 
 [Top](#Git-Server-Docker-Container)
 
-## Create Image script: 01_create_gitserver_image.sh
+## Create Git Server Docker Image: 01_create_gitserver_image.sh
 
 ### Customisation
 
@@ -140,7 +144,7 @@ Relevant bits of the `__env_gitserverConstants.sh` are reproduced below. The fol
 
 <hr>
 <code>
-_GIT_HOST_PPORT_=<strong>50022</strong><br>
+__GIT_HOST_PORT=<strong>50022</strong><br>
 </code>
 <br>
 <code>
@@ -155,7 +159,7 @@ __GITSERVER_CONTAINER_NAME="<strong>gitserver</strong>"<br>
 </>
 <hr>
 
-The container runs the ssh server to provide remote access to the Git repositories. Port 22 in the container is exposed on port <strong>\_GIT_HOST_PPORT\_</strong> of the docker host. Change that as required.
+The container runs the ssh server to provide remote access to the Git repositories. Port 22 in the container is exposed on port <strong>\_GIT_HOST_PORT\_</strong> of the docker host. Change that as required.
 
 Script `fn__DockerGeneric.sh` contains the definition of the remote docker repository, which will have to be changed if you want to upload the image to a remote repository. If you run the script without arguments that would request remote repository upload then the scrip will skip the related logic and repository name will be ignored. If you need to, change the value of:<br>
 
@@ -238,11 +242,11 @@ Execution of this script will result in the Dockerfile being generated and used 
 
 [Top](#Git-Server-Docker-Container)
 
-## Create and Run Docker Container script: 02_create_gitserver_container
+## Create and Run Docker Container: 02_create_gitserver_container
 
 ### Customisation
 
-There are no customisable properties / variables that this script uses which would not have already been customised for script `01_create_gitserver_image.sh`. Both scripts use the same `__env_devcicd_net.sh`, `__env_gitserverConstants.sh` and `fn__DockerGeneric.sh`, so customisation applied there carry over.
+There are no customisable properties / variables that this script uses which would not have already been customised for script `01_create_gitserver_image.sh`. All scripts use the same `__env_devcicd_net.sh`, `__env_gitserverConstants.sh` and `fn__DockerGeneric.sh`, so customisation applied there carry over.
 
 [Top](#Git-Server-Docker-Container)
 
@@ -353,6 +357,60 @@ will tar up the nominated remote git repository and will deposit the archive in 
 </tr> -->
 </tbody>
 </table>
+
+[Top](#Git-Server-Docker-Container)
+
+## Create Remote Git Repository: 03_create_named_repo_in_private_gitserver.sh
+
+### Customisation
+
+There are no customisable properties / variables that this script uses which would not have already been customised for script `01_create_gitserver_image.sh`. All scripts use the same `__env_devcicd_net.sh`, `__env_gitserverConstants.sh` and `fn__DockerGeneric.sh`, so customisation applied there carry over.
+
+[Top](#Git-Server-Docker-Container)
+
+### Script invocation
+
+cd /mnt/<driver letter>/dir1/../dirN/gitserver/\_commonUtils
+
+`03_create_named_repo_in_private_gitserver.sh [<Name of New Repository>] [<Path To id_rsa.pub>]`
+
+The script expects the container, produced by `02_create_gitserver_container.sh` to be running.
+
+The script accepts two optional arguments.
+
+<table>
+<caption>Script Arguments</caption><header>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Default</th>
+<tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: top;">&lt;Name of New Repository&gt;</td>
+<td>Optional.<br>The name of the new remote repository.<br>If the repository already exists the script will abort with a note to that effect.<br>
+If the repository does not exist it will be created as a "bare" repository.
+</td>
+<td style="vertical-align: top;">gittest</td>
+</tr>
+<tr>
+<td style="vertical-align: top;">&lt;Path To id_rsa.pub&gt;</td>
+<td>Optional.<br>The script needs to connect to the remote repository using ssh. To accomplish this the git server needs to "know" the client. Providing the path to the client's id_rsa.pub will enable the script to add the public key to the server's authorised_keys store and then add the repository. As a side-effect the client will be able to invoke custom commands the git server offers, for example <code>ssh git@gitserver list</code> or <code>ssh git@localhost -p 50022 list</code> if using WSL in windows on which the docker is installed.</td>
+<td style="vertical-align: top;">~/.ssh/id_rsa.pub</td>
+</tr>
+</tbody>
+</table>
+
+[Top](#Git-Server-Docker-Container)
+
+### High-level logic
+
+1. Get repository name and id_rsa.pub path from the command line, or substitiute defaults.
+2. Add id_rsa.pub to git server's authorised_hosts store
+3. Determine whether repository already exists and abort if it does or if the existence cannot be established
+4. Create a `--bare` repository with the specified name
 
 [Top](#Git-Server-Docker-Container)
 
