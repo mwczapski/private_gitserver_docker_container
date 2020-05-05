@@ -279,13 +279,12 @@ As I run Windows Services for Linux a lot, but use Windows Explorer a fair bit, 
 The 'extras' that you might get, if you choose to have them by responding Y to the appropriate prompt, are a bunch of windows shortcuts that execute specific commands, see table below. Note that 'dcc' stands for `docker.exe container`, 'dco' stands for `docker-compose.exe` and that the docker compose configuration file path is included by the script and is based on the location of the docker-compose.yml_xxxxx file.
 
 <table>
-<header>
-<tr>
-<td>Shortcut Name</td>
-<td>Command</td>
-</tr>
-</header>
-<body>
+<caption>Windows Shortcuts and commands they execute</caption>
+<thead>
+<th>Shortcut Name</th>
+<th>Command</th>
+</thead>
+<tbody>
 <tr>
 <td>dcc exec -itu git gitserver</td>
 <td>C:\Windows\System32\cmd.exe /c wsl -d Debian -- bash -lc "docker.exe container exec -itu git --workdir /home/git gitserver /bin/bash -l" || pause</td>
@@ -310,7 +309,7 @@ The 'extras' that you might get, if you choose to have them by responding Y to t
 <td>dco gitserver up --detach</td>
 <td>C:\Windows\System32\cmd.exe /c docker-compose.exe -f d:\gitserver\gitserver\docker-compose.yml_gitserver up --detach gitserver || pause</td>
 </tr>
-</body>
+</tbody>
 </table>
 
 [Top](#Git-Server-Docker-Container)
@@ -328,15 +327,14 @@ will tar up the nominated remote git repository and will deposit the archive in 
 #### Custom Git commands accepted by the server over SSH
 
 <table>
-<header>
-<th>
+<caption>Custom Git Server commands</caption><header>
+<thead>
 <tr>
-<td>Command invocation</td>
-<td>Description</td>
+<th>Command invocation</th>
+<th>Description</th>
 <tr>
-</th>
-</header>
-<body>
+</thead>
+<tbody>
 <tr>
 <td>ssh git@gitserver</td>
 <td>Will inoke a "no-login" script, present a help text and permit entry of one of the available commands</td>
@@ -349,11 +347,11 @@ will tar up the nominated remote git repository and will deposit the archive in 
 <td>ssh git@gitserver backup &lt;git repo name&gt;</td>
 <td>Will validate &lt;git repo name&gt;, to ensure the repo exists, and will create a timestamped zip archive of the rpository in the diectory "backups" shared with the host</td>
 </tr>
-<tr>
+<!-- <tr>
 <td></td>
 <td></td>
-</tr>
-</body>
+</tr> -->
+</tbody>
 </table>
 
 [Top](#Git-Server-Docker-Container)
