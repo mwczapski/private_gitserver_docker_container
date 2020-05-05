@@ -20,6 +20,7 @@
       - [Windows Shortcuts](#windows-shortcuts)
       - [Host-Guest-Shared "backups" directory](#host-guest-shared-backups-directory)
   - [Dependencies](#dependencies)
+  - [To-Do](#to-do)
   - [Licensing](#licensing)
   - [Note](#note)
 
@@ -335,6 +336,17 @@ This scripts have hard dependencies on a number of constants and functions whose
 6. fn\_\_DockerGeneric.sh
 7. fn\_\_FileSameButForDate.sh
 8. fn\_\_CreateWindowsShortcut.sh
+
+[Top](#Git-Server-Docker-Container)
+
+## To-Do
+
+<ol>
+<li>Better customisation experience (externally-defined customisation variables AND/OR configuration script)</li>
+<li>Add "Create a remote repository" functionality</li>
+<li>Add automatic repository backup on push functionality</li>
+<li>Add recover repository from selected backup functionality</li>
+</ol>
 
 [Top](#Git-Server-Docker-Container)
 
