@@ -148,11 +148,13 @@ __GIT_HOST_PORT=<strong>50022</strong><br>
 </code>
 <br>
 <code>
-__GITSERVER_NAME="<strong>gitserver</strong>"<br>
+__GITSERVER_NAME="<strong>gitserver</strong>"
 </code>
+<br>
 <code>
-__GITSERVER_HOST_NAME="<strong>gitserver</strong>"<br>
+__GITSERVER_HOST_NAME="<strong>gitserver</strong>"
 </code>
+<br>
 <code>
 __GITSERVER_CONTAINER_NAME="<strong>gitserver</strong>"<br>
 </code>
@@ -290,27 +292,27 @@ The 'extras' that you might get, if you choose to have them by responding Y to t
 </thead>
 <tbody>
 <tr>
-<td>dcc exec -itu git gitserver</td>
+<td style="vertical-align: top;">dcc exec -itu git gitserver</td>
 <td>C:\Windows\System32\cmd.exe /c wsl -d Debian -- bash -lc "docker.exe container exec -itu git --workdir /home/git gitserver /bin/bash -l" || pause</td>
 </tr>
 <tr>
-<td>dcc exec -itu root gitserver</td>
+<td style="vertical-align: top;">dcc exec -itu root gitserver</td>
 <td>C:\Windows\System32\cmd.exe /c wsl -d Debian -- bash -lc "docker.exe container exec -itu root --workdir / gitserver /bin/bash -l" || pause</td>
 </tr>
 <tr>
-<td>dco gitserver ps</td>
+<td style="vertical-align: top;">dco gitserver ps</td>
 <td>C:\Windows\System32\cmd.exe /c docker-compose.exe -f d:\gitserver\gitserver\docker-compose.yml_gitserver ps gitserver && pause</td>
 </tr>
 <tr>
-<td>dco gitserver rm -s -v</td>
+<td style="vertical-align: top;">dco gitserver rm -s -v</td>
 <td>C:\Windows\System32\cmd.exe /c docker-compose.exe -f d:\gitserver\gitserver\docker-compose.yml_gitserver rm -s -v gitserver || pause</td>
 </tr>
 <tr>
-<td>dco gitserver stop</td>
+<td style="vertical-align: top;">dco gitserver stop</td>
 <td>C:\Windows\System32\cmd.exe /c docker-compose.exe -f d:\gitserver\gitserver\docker-compose.yml_gitserver stop gitserver || pause</td>
 </tr>
 <tr>
-<td>dco gitserver up --detach</td>
+<td style="vertical-align: top;">dco gitserver up --detach</td>
 <td>C:\Windows\System32\cmd.exe /c docker-compose.exe -f d:\gitserver\gitserver\docker-compose.yml_gitserver up --detach gitserver || pause</td>
 </tr>
 </tbody>
@@ -320,7 +322,7 @@ The 'extras' that you might get, if you choose to have them by responding Y to t
 
 #### Host-Guest-Shared "backups" directory
 
-The docker-compose command that creates the dcker container also creates the host directory `"backups"`, at the same level as `_commonUtils`, and mounts it as bound volume in the container.
+The docker-compose command that creates the docker container also creates the host directory `"backups"`, at the same level as `_commonUtils`, and mounts it as bound volume in the container.
 
 The "backup" command, available to the user issuing the following command from a client:
 <code>ssh git@gitserver backup \<reponame\></code>
@@ -340,16 +342,16 @@ will tar up the nominated remote git repository and will deposit the archive in 
 </thead>
 <tbody>
 <tr>
-<td>ssh git@gitserver</td>
-<td>Will inoke a "no-login" script, present a help text and permit entry of one of the available commands</td>
+<td style="vertical-align: top;">ssh git@gitserver</td>
+<td style="vertical-align: top;">Will invoke a "no-login" script, present a help text and permit entry of one of the available commands</td>
 </tr>
 <tr>
-<td>ssh git@gitserver help</td>
-<td>Will display help text and exit</td>
+<td style="vertical-align: top;">ssh git@gitserver help</td>
+<td style="vertical-align: top;">Will display help text and exit</td>
 </tr>
 <tr>
-<td>ssh git@gitserver backup &lt;git repo name&gt;</td>
-<td>Will validate &lt;git repo name&gt;, to ensure the repo exists, and will create a timestamped zip archive of the rpository in the diectory "backups" shared with the host</td>
+<td style="vertical-align: top;">ssh git@gitserver backup &lt;git repo name&gt;</td>
+<td style="vertical-align: top;">Will validate &lt;git repo name&gt;, to ensure the repo exists, and will create a timestamped zip archive of the rpository in the diectory "backups" shared with the host</td>
 </tr>
 <!-- <tr>
 <td></td>
