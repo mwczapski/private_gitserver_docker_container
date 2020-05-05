@@ -64,7 +64,7 @@ Top-level scripts, belonging to this package, are expected to be located in the 
 
 The scripts source a number of utility scripts, located in its `utils` subdirectory
 
-The scripts assume that all projects-specific artefacts which are generated, except the docker image and the docker container, will be created in the parent directory of the **\_commonUtils** directory.
+The scripts assume that all projects-specific artifacts which are generated, except the docker image and the docker container, will be created in the parent directory of the **\_commonUtils** directory.
 
 <!--
 from https://plantuml.com/wbs-diagram
