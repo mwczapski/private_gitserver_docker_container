@@ -12,13 +12,14 @@
     - [Script invocation](#script-invocation)
     - [High-level build logic](#high-level-build-logic)
     - [Bill of Materials (of sorts)](#bill-of-materials-of-sorts)
-  - [Create and Run Docker Container: 02_create_gitserver_container](#create-and-run-docker-container-02_create_gitserver_container)
+  - [Create and Run Docker Container script: 02_create_gitserver_container](#create-and-run-docker-container-script-02_create_gitserver_container)
     - [Customisation](#customisation-1)
     - [Script invocation](#script-invocation-1)
     - [High-level logic](#high-level-logic)
     - [Extras](#extras)
       - [Windows Shortcuts](#windows-shortcuts)
       - [Host-Guest-Shared "backups" directory](#host-guest-shared-backups-directory)
+      - [Custom Git commands accepted by the server over SSH](#custom-git-commands-accepted-by-the-server-over-ssh)
   - [Dependencies](#dependencies)
   - [To-Do](#to-do)
   - [Licensing](#licensing)
@@ -28,7 +29,7 @@
 
 ## Introduction
 
-This script facilitates creation of a Docker Image for a private GIT Server running as a Docker Container. The image uses the most recent GIT distribution (2.26 at the time of this writing). The container can be used to provide docker-network-wide Git repository for small to medium size teams workng on projects whose sources cannot or should not be stored in cloud-hosted Git repositories. Small to medium start-ups or small companies might be examples.
+Scripts in this package facilitate creation of a Docker Image and a Docker Container with a private GIT Server. The image uses the most recent GIT distribution (2.26 at the time of this writing). The container can be used to provide docker-network-wide Git repository for small to medium size teams workng on projects whose sources cannot or should not be stored in cloud-hosted Git repositories. Small to medium start-ups or small companies might be examples.
 
 The image is based on [bitnami/minideb:jessie](https://github.com/bitnami/minideb) image as at early May 2020.
 
@@ -45,7 +46,7 @@ The image is saved as the `gitserver:1.0.0` Docker Image and, if the user invoke
 - Windows Subsystem for Linux (WSL)
 - git installed in the WSL environment
 
-The script (bash) expects to run within the Windows Subsystem for Linux (WSL) Debian host and have access to Windows' docker.exe and docker-compose.exe.
+Scripts (bash) expect to run within the Windows Subsystem for Linux (WSL) Debian host and have access to Windows' docker.exe and docker-compose.exe.
 
 [Top](#Git-Server-Docker-Container)
 
@@ -55,7 +56,7 @@ The script expects directory structure like:
 
 `/mnt/<drive letter>/dir1/../dirN/<projectNameDir>/_commonUtils/`
 
-Top-level script, belonging to this package, are expected to be located in the **\_commonUtils** directory and to have that directory as their working directory at the time of invocation.
+Top-level scripts, belonging to this package, are expected to be located in the **\_commonUtils** directory and to have that directory as their working directory at the time of invocation.
 
 The scripts source a number of utility scripts, located in its `utils` subdirectory
 
@@ -237,7 +238,7 @@ Execution of this script will result in the Dockerfile being generated and used 
 
 [Top](#Git-Server-Docker-Container)
 
-## Create and Run Docker Container: 02_create_gitserver_container
+## Create and Run Docker Container script: 02_create_gitserver_container
 
 ### Customisation
 
@@ -321,6 +322,39 @@ The docker-compose command that creates the dcker container also creates the hos
 The "backup" command, available to the user issuing the following command from a client:
 <code>ssh git@gitserver backup \<reponame\></code>
 will tar up the nominated remote git repository and will deposit the archive in that host directory. Just in case.
+
+[Top](#Git-Server-Docker-Container)
+
+#### Custom Git commands accepted by the server over SSH
+
+<table>
+<header>
+<th>
+<tr>
+<td>Command invocation</td>
+<td>Description</td>
+<tr>
+</th>
+</header>
+<body>
+<tr>
+<td>ssh git@gitserver</td>
+<td>Will inoke a "no-login" script, present a help text and permit entry of one of the available commands</td>
+</tr>
+<tr>
+<td>ssh git@gitserver help</td>
+<td>Will display help text and exit</td>
+</tr>
+<tr>
+<td>ssh git@gitserver backup &lt;git repo name&gt;</td>
+<td>Will validate &lt;git repo name&gt;, to ensure the repo exists, and will create a timestamped zip archive of the rpository in the diectory "backups" shared with the host</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</body>
+</table>
 
 [Top](#Git-Server-Docker-Container)
 
