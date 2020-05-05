@@ -8,6 +8,7 @@ Downloads
 *.zip
 *.tar.gz
 *.7z
+~*
 
 # allow anything that starts with __env
 !__env*

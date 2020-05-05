@@ -33,7 +33,7 @@
 
 ## Introduction
 
-Scripts in this package facilitate creation of a Docker Image and a Docker Container with a private GIT Server. The image uses the most recent GIT distribution (2.26 at the time of this writing). The container can be used to provide docker-network-wide Git repository for small to medium size teams workng on projects whose sources cannot or should not be stored in cloud-hosted Git repositories. Small to medium start-ups or small companies might be examples.
+Scripts in this package facilitate creation of a Docker Image and a Docker Container with a private GIT Server. The image uses the most recent GIT distribution (2.26 at the time of this writing). The container can be used to provide docker-network-wide Git repository for small to medium size teams working on projects whose sources cannot or should not be stored in cloud-hosted Git repositories. Small to medium start-ups or small companies might be examples.
 
 The image is based on [bitnami/minideb:jessie](https://github.com/bitnami/minideb) image as at early May 2020.
 
@@ -248,7 +248,7 @@ Execution of this script will result in the Dockerfile being generated and used 
 
 ### Customisation
 
-There are no customisable properties / variables that this script uses which would not have already been customised for script `01_create_gitserver_image.sh`. All scripts use the same `__env_devcicd_net.sh`, `__env_gitserverConstants.sh` and `fn__DockerGeneric.sh`, so customisation applied there carry over.
+There are no customisable properties / variables that this script uses which would not have already been customised for script `01_create_gitserver_image.sh`. All scripts use the same `__env_devcicd_net.sh`, `__env_gitserverConstants.sh` and `fn__DockerGeneric.sh`, so customisation applied there carries over.
 
 [Top](#Git-Server-Docker-Container)
 
