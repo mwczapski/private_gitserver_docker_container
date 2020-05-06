@@ -25,7 +25,8 @@ trap traperr ERR
 
 [[ ${fn__WSLPathToDOSandWSDPaths} ]] || source ./utils/fn__WSLPathToDOSandWSDPaths.sh
 [[ ${fn__ConfirmYN} ]] || source ./utils/fn__ConfirmYN.sh
-[[ ${fn__FileSameButForDate} ]] || source ./utils/fn__FileSameButForDate.sh
+# [[ ${fn__FileSameButForDate} ]] || source ./utils/fn__FileSameButForDate.sh
+[[ ${fn__UtilityGeneric} ]] || source ./utils/fn__UtilityGeneric.sh
 
 [[ ${fn__CreateWindowsShortcut} ]] || source ./utils/fn__CreateWindowsShortcut.sh
 

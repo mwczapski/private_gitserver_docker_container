@@ -85,7 +85,7 @@ from https://plantuml.com/wbs-diagram
          + /fn__ConfirmYN.sh
          + /fn__CreateWindowsShortcut.sh
          + /fn__DockerGeneric.sh
-         + /fn__FileSameButForDate.sh
+         + /fn__UtilityGeneric.sh
          + /fn__WSLPathToDOSandWSDPaths.sh
 @endwbs
 -->
