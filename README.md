@@ -24,6 +24,10 @@
     - [Customisation](#customisation-2)
     - [Script invocation](#script-invocation-2)
     - [High-level logic](#high-level-logic-1)
+  - [Delete Empty Remote Repository: 04_DeleteRemoteRepoIfEmpty](#delete-empty-remote-repository-04_deleteremoterepoifempty)
+    - [Customisation](#customisation-3)
+    - [Script invocation](#script-invocation-3)
+    - [High-level logic](#high-level-logic-2)
   - [Dependencies](#dependencies)
   - [To-Do](#to-do)
   - [Licensing](#licensing)
@@ -409,11 +413,64 @@ If the repository does not exist it will be created as a "bare" repository.
 
 ### High-level logic
 
-1. Get repository name and id_rsa.pub path from the command line, or substitiute defaults.
-2. Validate repository name and id_rsa.pub => abort if invalid
-3. Add id_rsa.pub to git server's authorised_hosts store
-4. Determine whether repository already exists and abort if it does or if the existence cannot be established
-5. Create a `--bare` repository with the specified name
+1. Get repository name and location of id_rsa.pub from the command line, or substitiute defaults.
+2. Validate repository name and existence and content of the file => abort if invalid
+3. Authorise client to ssh into the server by adding the `id_rsa.pub` to server's `authorized_hosts` store
+4. Determine whether repository already exists and abort if it does or the existence cannot be established
+5. Create the repository (as `--bare`) => abort if failed to create the repository
+
+[Top](#Git-Server-Docker-Container)
+
+## Delete Empty Remote Repository: 04_DeleteRemoteRepoIfEmpty
+
+### Customisation
+
+There are no customisable properties / variables that this script uses which would not have already been customised for script `01_create_gitserver_image.sh`. All scripts use the same `__env_devcicd_net.sh`, `__env_gitserverConstants.sh` and `fn__DockerGeneric.sh`, so customisation applied there carry over.
+
+[Top](#Git-Server-Docker-Container)
+
+### Script invocation
+
+cd /mnt/\<driver letter\>/dir1/../dirN/gitserver/\_commonUtils
+
+`04_DeleteRemoteRepoIfEmpty [<Name of Existing Empty Repository>]`
+
+The script expects the container, produced by `02_create_gitserver_container.sh` to be running.
+
+The script accepts one optional argument.
+
+<table>
+<caption>Script Arguments</caption><header>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Default</th>
+<tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: top;">&lt;Name of Existing Empty Repository&gt;</td>
+<td>Optional.<br>The name of the remote repository to delete.<br>
+If the repository does not exists the script will abort with a note to that effect.<br>
+If the repository already exists but is not empty the script will abort with a note to that effect.<br>
+If the repository exist and is empty (<code>git count-objects</code> returns 0 objects).
+</td>
+<td style="vertical-align: top;">gittest</td>
+</tr>
+</tbody>
+</table>
+[Top](#Git-Server-Docker-Container)
+
+### High-level logic
+
+1. Get repository name from the command line, or substitiute default.
+2. Validate repository name => abort if invalid
+3. Verify that client running the script is authorised to ssh into the server
+4. Determine whether repository already exists and abort if it does not or the existence cannot be established
+5. Determine whether repository is empty and abort if it is not empty or the command triggered an error
+6. Delete the repository (exisiting and empty) => abort if failed to delete the repository
+7. Verify that repository was deleted
 
 [Top](#Git-Server-Docker-Container)
 
