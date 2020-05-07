@@ -61,12 +61,13 @@ function fn__SetEnvironmentVariables() {
 
 function fn__Create_docker_entry_point_file() {
 
-  [[ $# -lt  1 || "${0^^}" == "HELP" ]] && {
-    echo '
+    local lUsage='
 Usage: 
     fn__Create_docker_entry_point_file \
       ${__GITSERVER_SHELL}
 '
+  [[ $# -lt  1 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -214,7 +215,7 @@ function fnUpdateOwnershipOfNonRootUserResources() {
           ${__GITSERVER_REPOS_ROOT}
       '
   [[ $# -lt  4 || "${0^^}" == "HELP" ]] && {
-    echo ${lUsage}
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
   pContainerName=${1?"${lUsage}"}
@@ -234,7 +235,6 @@ function fnUpdateOwnershipOfNonRootUserResources() {
 ## functions
 function fn__MakeCustomGitShellCommandsDirectory() {
   
-  [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
     local -r lUsage='
   Usage: 
     fn__PopulateGitShellCommandsCustom \
@@ -244,6 +244,8 @@ function fn__MakeCustomGitShellCommandsDirectory() {
         && STS=${__DONE} \
         || STS=${__FAILED}
         '
+  [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -265,7 +267,6 @@ function fn__MakeCustomGitShellCommandsDirectory() {
 
 function fn__CreateCustomGitShellCommandsAndCopyToServer() {
 
-  [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
   local -r lUsage='
   Usage: 
     fn__CreateCustomGitShellCommandsAndCopyToServer \
@@ -277,6 +278,8 @@ function fn__CreateCustomGitShellCommandsAndCopyToServer() {
         && STS=${__DONE} \
         || STS=${__FAILED}
         '
+  [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
 

@@ -410,9 +410,10 @@ If the repository does not exist it will be created as a "bare" repository.
 ### High-level logic
 
 1. Get repository name and id_rsa.pub path from the command line, or substitiute defaults.
-2. Add id_rsa.pub to git server's authorised_hosts store
-3. Determine whether repository already exists and abort if it does or if the existence cannot be established
-4. Create a `--bare` repository with the specified name
+2. Validate repository name and id_rsa.pub => abort if invalid
+3. Add id_rsa.pub to git server's authorised_hosts store
+4. Determine whether repository already exists and abort if it does or if the existence cannot be established
+5. Create a `--bare` repository with the specified name
 
 [Top](#Git-Server-Docker-Container)
 

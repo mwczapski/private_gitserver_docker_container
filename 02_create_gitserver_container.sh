@@ -39,14 +39,15 @@ function fn__SetEnvironmentVariables() {
   ## /mnt/x/dir1/dir2/..dirN/projectDir/_commonUtils/02_create_node13131_container
   ## and working directory /mnt/x/dir1/dir2/..dirN/projectDir/_commonUtils
 
-  [[ $# -lt  1 || "${0^^}" == "HELP" ]] && {
-    echo '
+    local lUsage='
       Usage: 
           fn__SetEnvironmentVariables \
             "${__DEBMIN_HOME}" \
             "${__GITSERVER_USERNAME}" \
             "${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}"
       '
+  [[ $# -lt  1 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -85,8 +86,7 @@ function fn__SetEnvironmentVariables() {
 
 
 function fn__CreateDockerComposeFile() {
-  [[ $# -lt  7 || "${0^^}" == "HELP" ]] && {
-    echo '
+    local lUsage='
       Usage: 
           fn__CreateDockerComposeFile \
             "${__GITSERVER_CONTAINER_NAME}"  \
@@ -97,6 +97,8 @@ function fn__CreateDockerComposeFile() {
             "${__DEBMIN_HOME_DOS}:${__GITSERVER_GUEST_HOME}" \
             "${__DOCKER_COMPOSE_FILE_WLS}"
       '
+  [[ $# -lt  7 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -184,8 +186,7 @@ EOF
 
 
 function fn__CreateWindowsShortcutsForShellInContainer() {
-  [[ $# -lt  3 || "${0^^}" == "HELP" ]] && {
-    echo '
+    local lUsage='
       Usage: 
         fn__CreateWindowsShortcutsForShellInContainer \
           "${__GITSERVER_CONTAINER_NAME}" \
@@ -193,6 +194,8 @@ function fn__CreateWindowsShortcutsForShellInContainer() {
           "${__GITSERVER_SHELL}" \
           "${__DOCKER_COMPOSE_FILE_DOS}" && STS=${__DONE} || STS=${__FAILED}
       '
+  [[ $# -lt  3 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
  

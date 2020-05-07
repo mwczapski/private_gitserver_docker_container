@@ -35,3 +35,4 @@ readonly __GITSERVER_REPOS_ROOT="/opt/gitrepos"
 readonly __GITSERVER_GUEST_HOME="/home/${__GIT_USERNAME}"
 readonly __GITSERVER_HOST_BACKUP_DIR="${__GITSERVER_GUEST_HOME}/backups"
 readonly __GITSERVER_REM_TEST_REPO_NAME="gittest"
+readonly __GITSERVER_REMOTE_REPO_NAME_MAX_LEN=40

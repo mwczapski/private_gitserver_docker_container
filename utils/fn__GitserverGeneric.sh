@@ -24,7 +24,6 @@ function fn__AddClientPublicKeyToServerAuthorisedKeysStore() {
 
   # introduce client's id_rsa public key to gitserver, which needs it to allow git test client access over ssh
   #
-  [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
     local -r lUsage='
   Usage: 
     fn__AddClientPublicKeyToServerAuthorisedKeysStore \
@@ -35,6 +34,8 @@ function fn__AddClientPublicKeyToServerAuthorisedKeysStore() {
         && STS=${__DONE} \
         || STS=${__FAILED}
         '
+  [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -76,8 +77,7 @@ function fn__AddClientPublicKeyToServerAuthorisedKeysStore() {
 
 
 function fn__DoesRepoAlreadyExist() {
-  [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
-    local -r lUsage='
+  local -r lUsage='
   Usage: 
     fn__DoesRepoAlreadyExist \
       ${__CLIENT_REMOTE_GIT_REPO_NAME_}  \
@@ -87,9 +87,11 @@ function fn__DoesRepoAlreadyExist() {
         && STS=${__YES} \
         || STS=${__NO}
         '
+  [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
     return ${__EXECUTION_ERROR}
   }
- 
+
   local -r pClientRemoteGitRepoName=${1?"${lUsage}"}
   local -r pServerContainerName=${2?"${lUsage}"}
   local -r pServerUsername=${3?"${lUsage}"}
@@ -109,13 +111,12 @@ function fn__DoesRepoAlreadyExist() {
       lCommand="ssh ${__GIT_USERNAME}@${__GITSERVER_CONTAINER_NAME} list"
     }
 
-  lCommandOutput=$(${lCommand}) \
-    || {
+  lCommandOutput=$( ${lCommand}) || {
       echo "______ Failed to execute ${lCommand} - Status: $? - aborting"
       exit
     }
 
-  grep "${pClientRemoteGitRepoName}" <<<"${lCommandOutput}" \
+  grep "^${pClientRemoteGitRepoName}$" >/dev/null <<<"${lCommandOutput}" \
     && STS=${__YES} \
     || STS=${__NO}
 
@@ -123,8 +124,63 @@ function fn__DoesRepoAlreadyExist() {
 }
 
 
-function fn__CreateNewClientGitRepositoryOnRemote() {
+function fn__IsRepositoryEmpty() {
+
+  # introduce client's id_rsa public key to gitserver, which needs it to allow git test client access over ssh
+  #
+  local -r lUsage='
+  Usage: 
+    fn__IsRepositoryEmpty \
+      ${__GITSERVER_REPOS_ROOT} \
+      ${__CLIENT_REMOTE_GIT_REPO_NAME_}  \
+      ${__GITSERVER_CONTAINER_NAME} \
+      ${__GIT_USERNAME} \
+      ${__GITSERVER_SHELL} \
+        && STS=${__DONE} \
+        || STS=${__FAILED}
+        '
   [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    return ${__FAILED}
+  }
+ 
+  local -r pGitserverReposRoot=${1?"${lUsage}"}
+  local -r pClientRemoteGitRepoName=${2?"${lUsage}"}
+  local -r pServerContainerName=${3?"${lUsage}"}
+  local -r pServerUsername=${4?"${lUsage}"}
+  local -r pShellInContainer=${5?"${lUsage}"}
+
+
+  local -r lCommand="
+    { cd ${pGitserverReposRoot}/${pClientRemoteGitRepoName}.git || exit ${__EXECUTION_ERROR} ; } && \
+    objCount=\$(git count-objects) &&
+    echo \${objCount%% *}
+    exit ${__DONE}
+  "
+
+  local lCommandOutput=""
+  fn__ExecCommandInContainerGetOutput \
+    ${pServerContainerName} \
+    ${pServerUsername} \
+    ${pShellInContainer} \
+    "${lCommand}" \
+    "lCommandOutput" && STS=$? || STS=$?
+
+  if [[ $STS -ne ${__SUCCESS} ]]
+  then
+    return ${__NO}
+  fi
+
+  if [[ "${lCommandOutput}" == "0" ]]
+  then
+    return ${__YES}
+  else
+    return ${__NO}
+  fi
+}
+
+
+function fn__CreateNewClientGitRepositoryOnRemote() {
     local -r lUsage='
   Usage: 
     fn__CreateNewClientGitRepositoryOnRemote \
@@ -136,6 +192,8 @@ function fn__CreateNewClientGitRepositoryOnRemote() {
         && STS=${__DONE} \
         || STS=${__FAILED}
         '
+  [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
   }
   local -r pClientRemoteGitRepoName=${1?"${lUsage}"}
   local -r pServerContainerName=${2?"${lUsage}"}
@@ -144,15 +202,12 @@ function fn__CreateNewClientGitRepositoryOnRemote() {
   local -r pGitServerReposRoot=${5?"${lUsage}"}
 
   lCommand="
-  ( [[ -d  ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git ]] && \
-  rm -Rfv  ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git ; ) ;\
-  { 
-    mkdir -pv ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
-    && chown -Rv ${pServerUsername}:developers  ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
-    && chmod -v g+s ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
+    mkdir -p ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
+    && chown -R ${pServerUsername}:developers  ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
+    && chmod g+s ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
     && cd ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git \
     && su - -s ${pShellInContainer} -c 'git init --bare ${pGitServerReposRoot}/${pClientRemoteGitRepoName}.git' ${pServerUsername}; \
-    }"
+    "
 
   fn__ExecCommandInContainer \
     ${pServerContainerName} \
@@ -164,70 +219,79 @@ function fn__CreateNewClientGitRepositoryOnRemote() {
 
 }
 
+function fn__DeleteEmptyRemoteRepository() {
+    local -r lUsage='
+  Usage: 
+    fn__DeleteEmptyRemoteRepository \
+      ${__CLIENT_REMOTE_GIT_REPO_NAME_}  \
+      ${__GITSERVER_CONTAINER_NAME} \
+      ${__GIT_USERNAME} \
+      ${__GITSERVER_SHELL} \
+      ${__GITSERVER_REPOS_ROOT} \
+        && STS=${__DONE} \
+        || STS=${__FAILED}
+        '
+  [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    return ${__FAILED}
+  }
 
-## ##########################################################################################
-## ##########################################################################################
-## 
-## ##########################################################################################
-## ##########################################################################################
+  local -r pClientRemoteGitRepoName=${1?"${lUsage}"}
+  local -r pServerContainerName=${2?"${lUsage}"}
+  local -r pServerUsername=${3?"${lUsage}"}
+  local -r pShellInContainer=${4?"${lUsage}"}
+  local -r pGitServerReposRoot=${5?"${lUsage}"}
 
-# # see if repo name has been provided as $1 - if yes, use it, if no use the default
-# #
+  lCommand="
+    cd ${pGitServerReposRoot} \
+    && rm -Rf ${pClientRemoteGitRepoName}.git \
+    "
 
-# # need remote repo name and location of the id_rsa.pub public key file associated 
-# # with the client which wants to access the gitserver
-# #
-# declare lClientGitRemoteRepoName=${1:-${__GITSERVER_REM_TEST_REPO_NAME}}
-# declare lClientIdRSAPubFilePath=${2:-~/.ssh/id_rsa.pub}
+  fn__ExecCommandInContainer \
+    ${pServerContainerName} \
+    "root" \
+    ${pShellInContainer} \
+    "${lCommand}" \
+      && STS=${__DONE} \
+      || STS=${__FAILED}
 
-
-# # client id can be extracted form the id_rsa.pub which generated it
-# #
-# declare lClientIdRSAPub=""
-# lClientIdRSAPub=$(cat ${lClientIdRSAPubFilePath}) ||{
-#   echo "______ Could not locate public key file ${lClientIdRSAPubFilePath} for this client - aborting"
-#   exit ${__FAILED}
-# }
+  return ${STS}
+}
 
 
-# # client's public key must be in git server's authorised_keys file
-# #
-# fn__AddClientPublicKeyToServerAuthorisedKeysStore \
-#   "${lClientIdRSAPub}"  \
-#   ${__GITSERVER_CONTAINER_NAME} \
-#   ${__GIT_USERNAME} \
-#   ${__GITSERVER_SHELL} \
-#     && STS=${__DONE} \
-#     || STS=${__FAILED}
+function fn__IsSSHToRemoteServerAuthorised() {
+  local -r lUsage='
+  Usage: 
+    fn__IsSSHToRemoteServerAuthorised 
+      ${__GITSERVER_CONTAINER_NAME}
+      ${__GIT_USERNAME} 
+      ${__GIT_HOST_PORT}
+        && STS=${__YES} 
+        || STS=${__NO}
+        '
+  [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
+    echo -e "__ER__ Insufficient number of arguments\n${lUsage}"
+    return ${__FAILED}
+  }
 
+  local -r pServerContainerName=${1?"${lUsage}"}
+  local -r pServerUsername=${2?"${lUsage}"}
+  local -r pHostPort=${3?"${lUsage}"}
 
-# # # if repo already exists we can't create a new one with the same name
-# # #
-# # fn__DoesRepoAlreadyExist \
-# #   ${lClientGitRemoteRepoName}  \
-# #   ${__GITSERVER_CONTAINER_NAME} \
-# #   ${__GIT_USERNAME} \
-# #   ${__GITSERVER_SHELL} \
-# #     && {
-# #       echo "______ Git Repository ${lClientGitRemoteRepoName} already exists - aborting"
-# #       exit
-# #     } \
-# #     || STS=$? # can be __NO or __EXECUTION_ERROR
+  local lLinux=${SHELL:-NO}
+  local lWSL=${WSL_DISTRO_NAME:-NO}
+  [[ "${lLinux}" == "NO" ]] && lLinux=1 || lLinux=0
+  [[ "${lWSL}" == "NO" ]] && lWSL=1 || lWSL=0
+  
+  local lCommand=""
+  if [[ ${lWSL} -eq ${__YES} ]]
+  then
+      lCommand="ssh ${pServerUsername}@localhost -p ${pHostPort} list"
+  else 
+      lCommand="ssh ${pServerUsername}@${pServerContainerName} list"
+  fi
 
-# #   [[ ${STS} -eq ${__EXECUTION_ERROR} ]] && {
-# #       echo "______ Failed to determine whether Git Repository ${lClientGitRemoteRepoName} already exists - aborting"
-# #       exit 
-# #   }
+  lCommandOutput=$(${lCommand}) && STS=$? ||STS=$?
 
-# # fn__CreateNewClientGitRepositoryOnRemote \
-# #   ${lClientGitRemoteRepoName}  \
-# #   ${__GITSERVER_CONTAINER_NAME} \
-# #   ${__GIT_USERNAME} \
-# #   ${__GITSERVER_SHELL} \
-# #   ${__GITSERVER_REPOS_ROOT} \
-# #     && {
-# #       echo "______ Created remote repository ${lClientGitRemoteRepoName}"
-# #     } \
-# #     || {
-# #       echo "______ Failed to create remote repository ${lClientGitRemoteRepoName}"
-# #     }
+  return ${STS}
+}
