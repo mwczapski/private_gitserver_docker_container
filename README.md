@@ -28,6 +28,7 @@
     - [Customisation](#customisation-3)
     - [Script invocation](#script-invocation-3)
     - [High-level logic](#high-level-logic-2)
+  - [Unit Tests](#unit-tests)
   - [Dependencies](#dependencies)
   - [To-Do](#to-do)
   - [Licensing](#licensing)
@@ -474,6 +475,20 @@ If the repository exist and is empty (<code>git count-objects</code> returns 0 o
 
 [Top](#Git-Server-Docker-Container)
 
+## Unit Tests
+
+Unit tests are provided for functions in
+
+1. fn\_\_GitserverGeneric.sh (50%)
+2. fn\_\_UtilityGeneric.sh (100%)
+3. fn\_\_WSLPathToDOSandWSDPaths (100%)
+
+Providing unit tests for functions which manipulate physical enviroment, like creating and manipulating a docker image or a docker comtainer, is to resource intensive and mocking physical infrastructure manipulation outcomes would be too time ocnsuming for this project.
+
+I will think about these issues.
+
+[Top](#Git-Server-Docker-Container)
+
 ## Dependencies
 
 This scripts have hard dependencies on a number of constants and functions whose sources are in the `_commonUtils/utils` directory. Specifically:
@@ -481,11 +496,12 @@ This scripts have hard dependencies on a number of constants and functions whose
 1. \_\_env_devcicd_net.sh
 2. \_\_env_gitserverConstants.sh
 3. \_\_env_YesNoSuccessFailureContants.sh
-4. fn\_\_WSLPathToDOSandWSDPaths.sh
-5. fn\_\_ConfirmYN.sh
+4. fn\_\_ConfirmYN.sh
+5. fn\_\_CreateWindowsShortcut.sh
 6. fn\_\_DockerGeneric.sh
-7. fn\_\_FileSameButForDate.sh
-8. fn\_\_CreateWindowsShortcut.sh
+7. fn\_\_GitserverGeneric.sh
+8. fn\_\_UtilityGeneric.sh
+9. fn\_\_WSLPathToDOSandWSDPaths.sh
 
 [Top](#Git-Server-Docker-Container)
 
