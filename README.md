@@ -483,7 +483,7 @@ Unit tests are provided for functions in
 2. fn\_\_UtilityGeneric.sh (100%)
 3. fn\_\_WSLPathToDOSandWSDPaths (100%)
 
-Providing unit tests for functions which manipulate physical enviroment, like creating and manipulating a docker image or a docker comtainer, is to resource intensive and mocking physical infrastructure manipulation outcomes would be too time ocnsuming for this project.
+Providing unit tests for functions which manipulate physical enviroment, like creating and manipulating a docker image or a docker container, is too resource intensive and deloping mock functionality for mocking physical infrastructure manipulation outcomes would be too time consuming for this project.
 
 I will think about these issues.
 
