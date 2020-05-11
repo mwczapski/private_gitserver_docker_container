@@ -424,28 +424,6 @@ fn__ExecCommandInContainer \
 echo "______ Started ssh server in ${__GITSERVER_CONTAINER_NAME} container"; 
 
 
-# _CMD_="
-# ( [[ -d  ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git ]] && \
-# rm -Rfv  ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git ; ) ;\
-#  { 
-#    mkdir -pv ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git \
-#    && chown -Rv ${__GIT_USERNAME}:developers  ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git \
-#    && chmod -v g+s ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git \
-#    && cd ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git \
-#    && su - -s ${__GITSERVER_SHELL} -c 'git init --bare ${__GITSERVER_REPOS_ROOT}/${__GITSERVER_REM_TEST_REPO_NAME}.git' ${__GIT_USERNAME}; \
-#   }"
-
-
-# fn__ExecCommandInContainer \
-#   ${__GITSERVER_CONTAINER_NAME} \
-#   "root" \
-#   ${__GITSERVER_SHELL} \
-#   "${_CMD_}" \
-#     && STS=${__DONE} \
-#     || STS=${__FAILED}
-# echo "______ Initialised test Git repository in ${__GITSERVER_CONTAINER_NAME} container"; 
-
-
 [[ ${_CREATE_WINDOWS_SHORTCUTS_} -eq ${__YES} ]] && {
   fn__CreateWindowsShortcutsForShellInContainer \
     "${__GITSERVER_CONTAINER_NAME}" \
