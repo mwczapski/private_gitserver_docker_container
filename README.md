@@ -149,7 +149,7 @@ Relevant bits of the `__env_gitserverConstants.sh` are reproduced below. The fol
 
 <hr>
 <code>
-__GIT_HOST_PORT=<strong>50022</strong><br>
+__GIT_HOST_PORT=<strong>52022</strong><br>
 </code>
 <br>
 <code>
