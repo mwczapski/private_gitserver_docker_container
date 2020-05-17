@@ -8,7 +8,7 @@
 
 declare -u __env_devcicd_net="SOURCED"
 
-[[ ${__env_YesNoSuccessFailureContants} ]] || source ./utils/__env_YesNoSuccessFailureContants.sh
+[[ ${__env_GlobalConstants} ]] || source ./utils/__env_GlobalConstants.sh
 
 # change this if you want to create network with a different name
 #
@@ -34,7 +34,7 @@ __DEVCICD_SUBNET_GATEWAY=${__DEVCICD_NET_PREFIX}.1
 
 fn__DockerNetworkExists \
   ${__DEVCICD_NET} \
-  && echo "______ Network ${__DEVCICD_NET} exists. Will use it." \
+  && echo "______ Network '${__DEVCICD_NET}' exists. Will use it." \
   ||                              \
     fn__CreateDockerNetwork       \
       ${__DEVCICD_NET}            \

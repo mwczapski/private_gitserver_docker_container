@@ -3,62 +3,142 @@
 ###############################################
 ## The MIT License (MIT)
 ##
-## Copyright © 2020 Michael Czapski
+## Copyright Â© 2020 Michael Czapski
 ###############################################
 
-set -o pipefail
-set -o errexit
-
-traperr() {
-  echo "ERROR: ------------------------------------------------"
-  echo "ERROR: ${BASH_SOURCE[1]} at about ${BASH_LINENO[0]}"
-  echo "ERROR: ------------------------------------------------"
-}
-set -o errtrace
-trap traperr ERR
+declare -ur _01_create_gitserver_image_utils="SOURCED"
 
 # common environment variable values and utility functions
 #
-[[ ${__env_gitClientConstants} ]] || source ./utils/__env_gitClientConstants.sh
-[[ ${fn__DockerGeneric} ]] || source ./utils/fn__DockerGeneric.sh
-[[ ${__env_devcicd_net} ]] || source ./utils/__env_devcicd_net.sh
-[[ ${__env_gitserverConstants} ]] || source ./utils/__env_gitserverConstants.sh
-
-# [[ ${fn__ConfirmYN} ]] || source ./utils/fn__ConfirmYN.sh
-# [[ ${fn__FileSameButForDate} ]] || source ./utils/fn__FileSameButForDate.sh
+[[ ${__env_GlobalConstants} ]] || source ./utils/__env_GlobalConstants.sh
+# [[ ${__env_devcicd_net} ]] || source ./utils/__env_devcicd_net.sh
+# [[ ${__env_gitserverConstants} ]] || source ./utils/__env_gitserverConstants.sh
 [[ ${fn__UtilityGeneric} ]] || source ./utils/fn__UtilityGeneric.sh
-# [[ ${fn__WSLPathToDOSandWSDPaths} ]] || source ./utils/fn__WSLPathToDOSandWSDPaths.sh
+# [[ ${fn__DockerGeneric} ]] || source ./utils/fn__DockerGeneric.sh
+[[ ${fn__WSLPathToDOSandWSDPaths} ]] || source ./utils/fn__WSLPathToDOSandWSDPaths.sh
 
-[[ ${fn__CreateWindowsShortcut} ]] || source ./utils/fn__CreateWindowsShortcut.sh
-
-
-[[ ${01_create_gitserver_image_utils} ]] || source ./utils/01_create_gitserver_image_utils.sh
+# [[ ${fn__CreateWindowsShortcut} ]] || source ./utils/fn__CreateWindowsShortcut.sh
 
 
-# ## local functions
-# ##
-# function fn__SetEnvironmentVariables() {
 
-#   # set environment
-#   #
-#   mkdir -pv ${__DEBMIN_HOME}
-#   cd ${__DEBMIN_HOME}
 
-#   __DEBMIN_HOME=${__DEBMIN_HOME%%/_commonUtils} # strip _commonUtils
-#   __DEBMIN_HOME_DOS=$(fn__WSLPathToRealDosPath ${__DEBMIN_HOME})
-#   __DEBMIN_HOME_WSD=$(fn__WSLPathToWSDPath ${__DEBMIN_HOME})
-#   __DEBMIN_SOURCE_IMAGE_NAME="bitnami/minideb:jessie"
-#   __TZ_PATH=Australia/Sydney
-#   __TZ_NAME=Australia/Sydney
-#   __ENV="${__GITSERVER_SHELL_GLOBAL_PROFILE}"
 
-#   __DOCKERFILE_PATH=${__DEBMIN_HOME}/Dockerfile.${__GITSERVER_IMAGE_NAME}
+:<<-'------------Function_Usage_Note-------------------------------'
+  Usage: 
+    fn__SetEnvironmentVariables \
+      "${__SCRIPTS_DIRECTORY_NAME}" \
+      "${__GITSERVER_IMAGE_NAME}"  \
+      "${__GITSERVER_SHELL_GLOBAL_PROFILE}"  \
+      "__DEBMIN_HOME"  \
+      "__DEBMIN_HOME_DOS"  \
+      "__DEBMIN_HOME_WSD" \
+      "__DEBMIN_SOURCE_IMAGE_NAME"  \
+      "__TZ_PATH"  \
+      "__TZ_NAME"  \
+      "__ENV"  \
+      "__DOCKERFILE_PATH"  \
+      "__REMOVE_CONTAINER_ON_STOP"  \
+      "__NEEDS_REBUILDING"  \
+  Returns:
+    ${__SUCCESS}
+    ${__FAILED} and error string on stdout
+  Expects in environment:
+    Constants from __env_GlobalConstants
+------------Function_Usage_Note-------------------------------
+function fn__SetEnvironmentVariables() {
+  local -r lUsage='
+  Usage: 
+    fn__SetEnvironmentVariables \
+      "${__SCRIPTS_DIRECTORY_NAME}" \
+      "${__GITSERVER_IMAGE_NAME}"  \
+      "${__GITSERVER_SHELL_GLOBAL_PROFILE}"  \
+      "__DEBMIN_HOME"  \
+      "__DEBMIN_HOME_DOS"  \
+      "__DEBMIN_HOME_WSD" \
+      "__DEBMIN_SOURCE_IMAGE_NAME"  \
+      "__TZ_PATH"  \
+      "__TZ_NAME"  \
+      "__ENV"  \
+      "__DOCKERFILE_PATH"  \
+      "__REMOVE_CONTAINER_ON_STOP"  \
+      "__NEEDS_REBUILDING"  \
+    '
+  # this picks up missing arguments
+  #
+  [[ $# -lt 13 || "${0^^}" == "HELP" ]] && {
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
+    return ${__FAILED}
+  }
 
-#   ## toggles 
-#   __REMOVE_CONTAINER_ON_STOP=${__YES} # container started using this image is nto supposed to be used for work
-#   __NEEDS_REBUILDING=${__NO}  # set to ${__YES} if image does not exist of Dockerfile changed
+  test -z ${1} 2>/dev/null && { echo "1st Argument value, '${1}', is invalid"; return ${__FAILED} ; }
+  test -z ${2} 2>/dev/null && { echo "2nd Argument value, '${2}', is invalid"; return ${__FAILED} ; }
+  test -z ${3} 2>/dev/null && { echo "3rd Argument value, '${3}', is invalid"; return ${__FAILED} ; }
 
-# }
+  fn__RefVariableExists ${5} || { echo "4th Argument value, '${4}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${5} || { echo "5th Argument value, '${5}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${6} || { echo "6th Argument value, '${6}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${7} || { echo "7th Argument value, '${7}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${8} || { echo "8th Argument value, '${8}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${9} || { echo "9th Argument value, '${9}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${10} || { echo "10th Argument value, '${10}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${11} || { echo "11th Argument value, '${11}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${12} || { echo "12th Argument value, '${12}', is invalid"; return ${__FAILED} ; }
+  fn__RefVariableExists ${13} || { echo "13th Argument value, '${13}', is invalid"; return ${__FAILED} ; }
+
+  # name reference variables
+  #
+  local rScriptsDirectoryName=${1}
+  local rGitserverImageName=${2}
+  local rGitserverShellGlobalProfile=${3}
+  local -n rDebminHome=${4}
+  local -n rDebminHomeDOS=${5}
+  local -n rDebminHomeWSD=${6}
+  local -n rDebminSourceImageName=${7}
+  local -n rTZPath=${8} 
+  local -n rTZName=${9}
+  local -n rGlobalShellProfile=${10}
+  local -n rDockerfilePath=${11}
+  local -n rRemoveContainerOnStop=${12}
+  local -n rNeedsRebuilding=${13}
+
+  test ${#rScriptsDirectoryName} -lt 1 &&  { echo "1st Argument, '${1}', must have a valid value"; return ${__FAILED} ; }
+  test ${#rGitserverImageName} -lt 1 &&  { echo "2nd Argument, '${2}', must have a valid value"; return ${__FAILED} ; }
+  test ${#rGitserverShellGlobalProfile} -lt 1 &&  { echo "3rd Argument, '${3}', must have a valid value"; return ${__FAILED} ; }
+  test ${#rDebminHome} -lt 1 &&  { echo "4th Argument, '${4}', must have a valid value"; return ${__FAILED} ; }
+
+  # derived values
+  #
+  rDebminHome=${rDebminHome%%/${rScriptsDirectoryName}} # strip _commonUtils
+
+  cd ${rDebminHome} 2>/dev/null && STS=$? || STS=$?
+  [[ ${STS} -ne ${__SUCCESS} ]] && { echo "cd: ${rDebminHome}: No such file or directory"; return ${__FAILED}; }
+
+  rDebminHomeDOS=$(fn__WSLPathToRealDosPath ${rDebminHome})
+  rDebminHomeWSD=$(fn__WSLPathToWSDPath ${rDebminHome})
+  rDebminSourceImageName="bitnami/minideb:jessie"
+  rTZPath="Australia/Sydney"
+  rTZName="Australia/Sydney"
+  rGlobalShellProfile="${rGitserverShellGlobalProfile}"
+  rDockerfilePath=${rDebminHome}/Dockerfile.${rGitserverImageName}
+
+  ## options toggles 
+  rRemoveContainerOnStop=${__YES} # container started using this image is nto supposed to be used for work
+  rNeedsRebuilding=${__NO}  # set to ${__YES} if image does not exist of Dockerfile changed
+
+  # echo "rDebminHome: |${rDebminHome}|"
+  # echo "rDebminHomeDOS: |${rDebminHomeDOS}|"
+  # echo "rDebminHomeWSD: |${rDebminHomeWSD}|"
+  # echo "rDebminSourceImageName: |${rDebminSourceImageName}|"
+  # echo "rTZPath: |${rTZPath}|"
+  # echo "rTZName: |${rTZName}|"
+  # echo "rGlobalShellProfile: |${rGlobalShellProfile}|"
+  # echo "rDockerfilePath: |${rDockerfilePath}|"
+  # echo "rRemoveContainerOnStop: |${rRemoveContainerOnStop}|"
+  # echo "rNeedsRebuilding: |${rNeedsRebuilding}|"
+
+  return ${__SUCCESS}
+
+}
 
 
 # function fn__Create_docker_entry_point_file() {
@@ -78,10 +158,11 @@ trap traperr ERR
 #   cat <<-EOF > ${__DEBMIN_HOME}/docker-entrypoint.sh
 # #!/bin/bash
 # set -e
-
+# 
+# service ssh start
+# 
 # # prevent container from exiting after successfull startup
-# # exec /bin/bash -c 'while true; do sleep 100000; done'
-# exec ${pGuestShell} \$@
+# exec /bin/bash -c 'while true; do sleep 100000; done'
 # EOF
 #   chmod +x ${__DEBMIN_HOME}/docker-entrypoint.sh
 # }
@@ -104,6 +185,7 @@ trap traperr ERR
 # # the environment variables below will be used in creating the image
 # # and will be available to the containers created from the image ...
 # #
+# 
 # ENV DEBMIN_USERNAME=${__GIT_USERNAME} \\
 #     DEBMIN_SHELL=${__GITSERVER_SHELL} \\
 #     DEBMIN_SHELL_PROFILE=${__GITSERVER_SHELL_PROFILE} \\
@@ -114,6 +196,7 @@ trap traperr ERR
 #     DEBIAN_FRONTEND=noninteractive
 
 # COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+# ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # # install necessary / usefull extra packages
 # # the following are needed to download, builld and install git from sources
@@ -404,145 +487,3 @@ trap traperr ERR
 
 
 # }
-
-
-## ##################################################################################
-## ##################################################################################
-## 
-## ##################################################################################
-## ##################################################################################
-
-# is there a command line argument that asks for the image to be uploaded ot the remote docker repository?
-
-fn__PushToRemoteDockerRepo ${1} && STS=${__YES} || STS=${__NO} 
-readonly __PUSH_TO_REMOTE_DOCKER_REPO=$STS
-
-echo "______ Push of the image to the remote Docker repository has $([[ ${__PUSH_TO_REMOTE_DOCKER_REPO} -eq ${__NO} ]] && echo "NOT ")been requested."
-
-# confirm working directory
-#
-__DEBMIN_HOME=$(pwd | sed 's|/_commonUtils||')
-
-fn__ConfirmYN "Artefacts location will be ${__DEBMIN_HOME} - Is this correct?" && true || {
-  echo "_____ Aborting ..."
-  exit
-}
-
-
-fn__SetEnvironmentVariables ## && STS=${__SUCCESS} || STS=${__FAILED} # let it fail 
-echo "_____ Set environment variables" 
-
-
-fn__Create_docker_entry_point_file ${__GITSERVER_SHELL} ## && STS=${__SUCCESS} || STS=${__FAILED} # let it fail 
-echo "_____ Created docker-entrypoint.sh" 
-
-
-fn__CreateDockerfile && __REBUILD_IMAGE=${__YES} || __REBUILD_IMAGE=${__NO} # if dockerfile has not changed
-echo "_____ Created Dockerfile: ${__DOCKERFILE_PATH}" 
-
-
-fn__ImageExists \
-  "${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}" &&
-    __IMAGE_EXISTS=${__YES} || 
-    __IMAGE_EXISTS=${__NO}
-[[ ${__IMAGE_EXISTS} -eq ${__NO} ]]  \
-  && {
-    echo "_____ Image ${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} does not exist"
-    __REBUILD_IMAGE=${__YES}
-  } \
-  || echo "_____ Image ${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} exists"
-
-
-if [[ ${__REBUILD_IMAGE} -eq ${__YES} ]]; then
-  fn__BuildImage  \
-    ${__REBUILD_IMAGE} \
-    ${__GITSERVER_IMAGE_NAME} \
-    ${__GITSERVER_IMAGE_VERSION} \
-    ${__DEBMIN_HOME_DOS}/Dockerfile.${__GITSERVER_IMAGE_NAME} \
-    ${__DEVCICD_NET} ## && STS=${__SUCCESS} || STS=${__FAILED} # let it abort if failed
-  echo "_____ Image ${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} (re-)built"
-fi
-
-
-fn__ContainerExists \
-  ${__GITSERVER_CONTAINER_NAME} \
-    && STS=${__YES} \
-    || STS=${__NO}
-
-if [[ $STS -eq ${__YES} ]]; then
-  echo "_____ Container ${__GITSERVER_CONTAINER_NAME} exists - will stopp and remove"
-  fn__StopAndRemoveContainer  ${__GITSERVER_CONTAINER_NAME} && STS=${__YES} || STS=${__NO}
-  echo "_____ Container ${__GITSERVER_CONTAINER_NAME} stopped and removed"
-else
-  echo "_____ Container ${__GITSERVER_CONTAINER_NAME} does not exist"
-fi
-
-
-fn__RunContainerDetached \
-  ${__GITSERVER_IMAGE_NAME} \
-  ${__GITSERVER_IMAGE_VERSION} \
-  ${__GITSERVER_CONTAINER_NAME} \
-  ${__GITSERVER_HOST_NAME} \
-  ${__REMOVE_CONTAINER_ON_STOP} \
-  ${__EMPTY} \
-  ${__DEVCICD_NET} \
-    && STS=${__DONE} || \
-    STS=${__FAILED}
-echo "_____ Container ${__GITSERVER_CONTAINER_NAME} started"
-
-
-if [[ $STS -eq ${__DONE} ]]; then
-
-  fnUpdateOwnershipOfNonRootUserResources  \
-    ${__GITSERVER_CONTAINER_NAME} \
-    ${__GIT_USERNAME} \
-    ${__GITSERVER_GUEST_HOME}  \
-    ${__GITSERVER_SHELL}  \
-    ${__GITSERVER_REPOS_ROOT}
-  echo "_____ Updated ownership of resources for user ${__GIT_USERNAME}"
-
-
-  fn__MakeCustomGitShellCommandsDirectory \
-    ${__GITSERVER_CONTAINER_NAME} \
-    ${__GIT_USERNAME} \
-    ${__GITSERVER_SHELL} \
-      && {
-
-        fn__CreateCustomGitShellCommandsAndCopyToServer \
-          ${__GITSERVER_CONTAINER_NAME} \
-          ${__GIT_USERNAME} \
-          ${__GITSERVER_SHELL} \
-          ${__DEBMIN_HOME_DOS}  \
-          ${__DEBMIN_HOME}  \
-            && {
-              echo "______ Created Custom Git Shell Commands"; 
-            } \
-            || STS=${__FAILED}
-      } \
-      || STS=${__FAILED}
-
-
-  fn__CommitChangesStopContainerAndSaveImage   \
-    "${__GITSERVER_CONTAINER_NAME}" \
-    "${__GITSERVER_IMAGE_NAME}" \
-    "${__GITSERVER_IMAGE_VERSION}"
-  echo "_____ Commited changes to ${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} and Stopped container ${__CONTAINER_NAME}"
-
-
-  if [[ ${__PUSH_TO_REMOTE_DOCKER_REPO} == ${__YES} ]]; then
-
-    fn__PushImageToRemoteRepository   \
-      "${__DOCKER_REPOSITORY_HOST}"  \
-      "${__GITSERVER_IMAGE_NAME}" \
-      "${__GITSERVER_IMAGE_VERSION}"
-    echo "_____ Image tagged and pushed to repository as ${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}" 
-  else
-    echo "_____ On user request on user request image ${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} has NOT been pushed to Docker repository ${__DOCKER_REPOSITORY_HOST}" 
-  fi
-
-
-else
-  ${__INDUCE_ERROR}
-fi
-
-echo "Done..."

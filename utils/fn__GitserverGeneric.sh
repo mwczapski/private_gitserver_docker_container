@@ -9,7 +9,7 @@ declare -ur fn__GitserverGeneric="SOURCED"
 
 # common environment variable values and utility functions
 #
-[[ ${__env_YesNoSuccessFailureContants} ]] || source ./utils/__env_YesNoSuccessFailureContants.sh
+[[ ${__env_GlobalConstants} ]] || source ./utils/__env_GlobalConstants.sh
 [[ ${fn__DockerGeneric} ]] || source ./utils/fn__DockerGeneric.sh
 [[ ${__env_devcicd_net} ]] || source ./utils/__env_devcicd_net.sh
 [[ ${__env_gitserverConstants} ]] || source ./utils/__env_gitserverConstants.sh
@@ -20,6 +20,44 @@ echo "______ Sourced common variables and functions";
 ##
 ## local functions
 ##
+function fn__AddGITServerToLocalKnown_hostsAndTestSshAccess() {
+  # introduce server to client
+  #
+    local -r lUsage='
+  Usage: 
+    fn__AddGITServerToLocalKnown_hostsAndTestSshAccess \
+      ${__GIT_CLIENT_CONTAINER_NAME} \
+      ${__GIT_CLIENT_USERNAME} \
+      ${__GIT_CLIENT_SHELL} \
+        && STS=${__DONE} \
+        || STS=${__FAILED}
+        '
+  [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
+    return ${__FAILED}
+  }
+ 
+  local -r pClientContainerName=${1?"${lUsage}"}
+  local -r pClientUsername=${2?"${lUsage}"}
+  local -r pShellInContainer=${3?"${lUsage}"}
+
+  local -r _CMD_="
+    ssh-keyscan -H ${__GITSERVER_HOST_NAME} >> ~/.ssh/known_hosts &&
+    ssh git@${__GITSERVER_HOST_NAME} list && echo 'Can connect to the remote git repo' || echo 'Cannot connect to the remote git repo'
+    "
+
+  _CMD_OUTPUT_=""
+  fn__ExecCommandInContainerGetOutput \
+    ${pClientContainerName} \
+    ${pClientUsername} \
+    ${pShellInContainer} \
+    "${_CMD_}" \
+    "_CMD_OUTPUT_" \
+      && return ${__DONE} \
+      || return ${__FAILED}
+}
+
+
 function fn__AddClientPublicKeyToServerAuthorisedKeysStore() {
 
   # introduce client's id_rsa public key to gitserver, which needs it to allow git test client access over ssh
@@ -35,7 +73,7 @@ function fn__AddClientPublicKeyToServerAuthorisedKeysStore() {
         || STS=${__FAILED}
         '
   [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -88,7 +126,7 @@ function fn__DoesRepoAlreadyExist() {
         || STS=${__NO}
         '
   [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
     return ${__EXECUTION_ERROR}
   }
 
@@ -115,8 +153,9 @@ function fn__DoesRepoAlreadyExist() {
       echo "______ Failed to execute ${lCommand} - Status: $? - aborting"
       exit
     }
-
-  grep "^${pClientRemoteGitRepoName}$" >/dev/null <<<"${lCommandOutput}" \
+# echo "xxxxxx ${lCommandOutput}"
+  # grep "^${pClientRemoteGitRepoName}$" >/dev/null <<<"${lCommandOutput}" \
+  grep "^${pClientRemoteGitRepoName}$" <<<"${lCommandOutput}" \
     && STS=${__YES} \
     || STS=${__NO}
 
@@ -140,7 +179,7 @@ function fn__IsRepositoryEmpty() {
         || STS=${__FAILED}
         '
   [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -193,7 +232,7 @@ function fn__CreateNewClientGitRepositoryOnRemote() {
         || STS=${__FAILED}
         '
   [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
   }
   local -r pClientRemoteGitRepoName=${1?"${lUsage}"}
   local -r pServerContainerName=${2?"${lUsage}"}
@@ -219,6 +258,7 @@ function fn__CreateNewClientGitRepositoryOnRemote() {
 
 }
 
+
 function fn__DeleteEmptyRemoteRepository() {
     local -r lUsage='
   Usage: 
@@ -232,7 +272,7 @@ function fn__DeleteEmptyRemoteRepository() {
         || STS=${__FAILED}
         '
   [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -270,7 +310,7 @@ function fn__IsSSHToRemoteServerAuthorised() {
         || STS=${__NO}
         '
   [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
-    echo -e "__ER__ Insufficient number of arguments\n${lUsage}"
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -294,4 +334,111 @@ function fn__IsSSHToRemoteServerAuthorised() {
   lCommandOutput=$(${lCommand}) && STS=$? ||STS=$?
 
   return ${STS}
+}
+
+
+function fnUpdateOwnershipOfNonRootUserResources() {
+  local lUsage='
+      Usage: 
+        fnUpdateOwnershipOfNonRootUserResources  \
+          ${__GIT_CLIENT_CONTAINER_NAME} \
+          ${__GIT_USERNAME} \
+          ${DEBMIN_GUEST_HOME}  \
+          ${__GIT_CLIENT_SHELL}  \
+          ${__GITSERVER_REPOS_ROOT}
+      '
+  [[ $# -lt  4 || "${0^^}" == "HELP" ]] && {
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
+    return ${__FAILED}
+  }
+  pContainerName=${1?"${lUsage}"}
+  pGitUsername=${2?"${lUsage}"}
+  pGuestHome=${3?"${lUsage}"}
+  pContainerShell=${4?"${lUsage}"}
+  pGitReposRoot=${5?"${lUsage}"}
+
+  ${__DOCKER_EXE} container exec -itu root -w ${pGitReposRoot} ${pContainerName} ${pContainerShell} -lc "
+  chown -R ${pGitUsername}:${pGitUsername} ${pGuestHome}
+  chown -R ${pGitUsername}:${pGitUsername} ${pGitReposRoot}
+  "
+  echo "______ Updated ownership of ${pGitUsername} resources on ${pContainerName}"
+}
+
+
+
+
+:<<-'COMMENT--fn__GetRemoteGitRepoName-----------------------------------------'
+  Usage:
+    fn__GetRemoteGitRepoName
+      ${__GIT_CLIENT_REMOTE_REPO_NAME}
+      "__GIT_CLIENT_REMOTE_REPO_NAME" out
+  Returns:
+    __SUCCESS and the chosen name in __GIT_CLIENT_CONTAINER_NAME ref variable
+    __FAILED if there were insufficient arguments, all opportunities to choose a name were exhausted or other unrecoverable errors occured
+
+COMMENT--fn__GetRemoteGitRepoName-----------------------------------------
+
+function fn__GetRemoteGitRepoName() {
+  local -r lUsage='
+  Usage: 
+    fn__GetRemoteGitRepoName \
+      ${__GIT_CLIENT_REMOTE_REPO_NAME}  \
+      "__GIT_CLIENT_REMOTE_REPO_NAME" # out
+    '
+  # this picks up missing arguments
+  #
+  [[ $# -lt 2 || "${0^^}" == "HELP" ]] && {
+    echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
+    return ${__FAILED}
+  }
+
+  # name reference variables
+  #
+  local -r lDefaultGitRemoteRepoName="${1}"
+  local -n out__GIT_CLIENT_REMOTE_REPO_NAME=${2} 2>/dev/null
+
+  # this picks up arguments which are empty strings
+  # 
+  [[ -n lDefaultGitRemoteRepoName ]] 2>/dev/null || { echo "1st Argument value, '${1}', is invalid"; return ${__FAILED} ; }
+  [[ -n "${2}" ]] 2>/dev/null || { echo "2nd Argument value, '${2}', is invalid"; return ${__FAILED} ; }
+
+  fn__ConfirmYN "Use default name '${lDefaultGitRemoteRepoName}' as Remote Git Repository name? " && STS=${__YES} || STS=${__NO}
+  if [[ ${STS} -eq ${__YES} ]] 
+  then
+    out__GIT_CLIENT_REMOTE_REPO_NAME=${lDefaultGitRemoteRepoName}
+    return ${__YES}
+  fi
+
+  inPromptString="_????_ Please enter a valid identifier for Git Repository name (Defaut: '${lDefaultGitRemoteRepoName}'): "
+  inMaxLength=${__MAX_CONTAIMER_NAME_LENGTH}
+  inTimeoutSecs=${_PROMPTS_TIMEOUT_SECS_}
+  outValidValue="${lDefaultGitRemoteRepoName}"
+
+  # read -t 10 resp
+  # echo "${FUNCNAME}:${LINENO}: resp: ${resp}"
+
+  fn__GetValidIdentifierInput \
+    "inPromptString" \
+    "inMaxLength" \
+    "inTimeoutSecs" \
+    "outValidValue" \
+        && STS=$? \
+        || STS=$?
+
+  if [[ ${STS} -eq ${__FAILED} ]]
+  then
+    echo "______ Provided input did not result in a valid identifier - identifier based on input was '${outValidValue}'"
+    return ${__FAILED}
+  fi
+  echo "______ Sanitized Git Repository name will be '${outValidValue}'"
+
+  fn__ConfirmYN "Confirm '${outValidValue}' as Git Repository name? " && STS=$? || STS=$?
+  if [[ ${STS} -eq ${__NO} ]]
+  then
+    out__GIT_CLIENT_REMOTE_REPO_NAME=""
+    return ${__NO}
+  fi
+
+  out__GIT_CLIENT_REMOTE_REPO_NAME="${outValidValue}"
+  return ${__YES}
 }
