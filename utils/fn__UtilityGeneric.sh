@@ -188,7 +188,7 @@ function fn__FileSameButForDate() {
   local pFile1=${1?"${lUsage}"}
   local pFile2=${2?"${lUsage}"}
 
-  diff -s --ignore-matching-lines='202[0-9][0-1][0-9][0-3][0-9]' \
+  diff -sw --ignore-matching-lines='202[0-9][0-1][0-9][0-3][0-9]' \
     ${pFile1} \
     ${pFile2} \
     >/dev/null \

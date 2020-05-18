@@ -331,7 +331,7 @@ function fn__ExecCommandInContainer() {
   local pContainerShell=${3?"${lUsage}"}
   local pContainerCommand=${4?"${lUsage}"}
 
-  ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" && STS=$? || STS=$?
+  ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" 2>/dev/null && STS=$? || STS=$?
   [[ ${STS} -eq 0 ]] && STS=${__DONE}|| STS=${__FAILED}
 
   return ${STS}

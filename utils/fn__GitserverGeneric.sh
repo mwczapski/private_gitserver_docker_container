@@ -14,7 +14,6 @@ declare -ur fn__GitserverGeneric="SOURCED"
 [[ ${__env_devcicd_net} ]] || source ./utils/__env_devcicd_net.sh
 [[ ${__env_gitserverConstants} ]] || source ./utils/__env_gitserverConstants.sh
 
-echo "______ Sourced common variables and functions"; 
 
 
 ##
@@ -337,10 +336,10 @@ function fn__IsSSHToRemoteServerAuthorised() {
 }
 
 
-function fnUpdateOwnershipOfNonRootUserResources() {
+function fn__UpdateOwnershipOfNonRootUserResources() {
   local lUsage='
       Usage: 
-        fnUpdateOwnershipOfNonRootUserResources  \
+        fn__UpdateOwnershipOfNonRootUserResources  \
           ${__GIT_CLIENT_CONTAINER_NAME} \
           ${__GIT_USERNAME} \
           ${DEBMIN_GUEST_HOME}  \

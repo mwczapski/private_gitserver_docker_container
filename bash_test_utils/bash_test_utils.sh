@@ -132,6 +132,6 @@ then
   }
   assessReturnStatusAndStdOut_test_001
 
-else 
-  echo "     . Not running test for ${functionName}"
+# else 
+#   echo "     . Not running test for ${functionName}"
 fi

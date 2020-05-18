@@ -30,7 +30,7 @@ trap traperr ERR
 
 [[ ${fn__CreateWindowsShortcut} ]] || source ./utils/fn__CreateWindowsShortcut.sh
 
-echo "______ Sourced common variables and functions"; 
+
 
 
 function fn__SetEnvironmentVariables() {

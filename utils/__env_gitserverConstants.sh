@@ -15,7 +15,7 @@ declare -u __env_gitserverConstants="SOURCED"
 #     source ./utils/__env_devcicd_net.sh
 #   } || true
 
-readonly __GIT_HOST_PORT=52022
+readonly __GIT_HOST_PORT=40022
 readonly _GIT_GUEST_PORT_=22
 
 readonly __GIT_USERNAME="git"
