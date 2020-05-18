@@ -904,7 +904,7 @@ then
     expectedStringResult="1st Argument value, '', is invalid"
     expectedStatusResult=${__FAILED}
 
-    actualStringResult=$( ${functionName} "" "" "" "" "" "" "" "" "" "" "" "" "") && actualStatusResult=$? || actualStatusResult=$?
+    actualStringResult=$( ${functionName} "" "" "" "" "" "" "" "" "" ) && actualStatusResult=$? || actualStatusResult=$?
     # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
@@ -929,7 +929,7 @@ then
     expectedStringResult="2nd Argument value, '', is invalid"
     expectedStatusResult=${__FAILED}
 
-    actualStringResult=$( ${functionName} "${lrScriptDirectoryName}" "" "" "" "" "" "" "" "" "" "" "" "") && actualStatusResult=$? || actualStatusResult=$?
+    actualStringResult=$( ${functionName} "${lrScriptDirectoryName}" "" "" "" "" "" "" "" "") && actualStatusResult=$? || actualStatusResult=$?
     # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
@@ -954,7 +954,7 @@ then
     expectedStringResult="3rd Argument value, '', is invalid"
     expectedStatusResult=${__FAILED}
 
-    actualStringResult=$( ${functionName} "${lrScriptDirectoryName}" "${lrGitserverImageName}" "" "" "" "" "" "" "" "" "" "" "") && actualStatusResult=$? || actualStatusResult=$?
+    actualStringResult=$( ${functionName} "${lrScriptDirectoryName}" "${lrGitserverImageName}" "" "" "" "" "" "" "" "" "" "" ) && actualStatusResult=$? || actualStatusResult=$?
     # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
@@ -978,10 +978,6 @@ then
     # local lDebminHome=""
     local lDebminHomeDOS=""
     local lDebminHomeWSD=""
-    local lDebminSourceImageName=""
-    local lTZPath=""
-    local lTZName=""
-    local lGlobalShellProfile=""
     local lDockerfilePath=""
     local lRemoveContainerOnStop=""
     local lNeedsRebuilding=""
@@ -997,10 +993,6 @@ then
                               "lDebminHome" \
                               "lDebminHomeDOS" \
                               "lDebminHomeWSD" \
-                              "lDebminSourceImageName" \
-                              "lTZPath" \
-                              "lTZName" \
-                              "lGlobalShellProfile" \
                               "lDockerfilePath" \
                               "lRemoveContainerOnStop" \
                               "lNeedsRebuilding" ) && actualStatusResult=$? || actualStatusResult=$?
@@ -1027,10 +1019,6 @@ then
     local lDebminHome=""
     local lDebminHomeDOS=""
     local lDebminHomeWSD=""
-    local lDebminSourceImageName=""
-    local lTZPath=""
-    local lTZName=""
-    local lGlobalShellProfile=""
     local lDockerfilePath=""
     local lRemoveContainerOnStop=""
     local lNeedsRebuilding=""
@@ -1046,10 +1034,6 @@ then
                               "lDebminHome" \
                               "lDebminHomeDOS" \
                               "lDebminHomeWSD" \
-                              "lDebminSourceImageName" \
-                              "lTZPath" \
-                              "lTZName" \
-                              "lGlobalShellProfile" \
                               "lDockerfilePath" \
                               "lRemoveContainerOnStop" \
                               "lNeedsRebuilding" ) && actualStatusResult=$? || actualStatusResult=$?
@@ -1074,10 +1058,6 @@ then
     local lDebminHome="/mnt/d/gitserver/gitserver/_commonUtils"
     local lDebminHomeDOS=""
     local lDebminHomeWSD=""
-    local lDebminSourceImageName=""
-    local lTZPath=""
-    local lTZName=""
-    local lGlobalShellProfile=""
     local lDockerfilePath=""
     local lRemoveContainerOnStop=""
     local lNeedsRebuilding=""
@@ -1094,10 +1074,6 @@ then
         "lDebminHome" \
         "lDebminHomeDOS" \
         "lDebminHomeWSD" \
-        "lDebminSourceImageName" \
-        "lTZPath" \
-        "lTZName" \
-        "lGlobalShellProfile" \
         "lDockerfilePath" \
         "lRemoveContainerOnStop" \
         "lNeedsRebuilding" && actualStatusResult=$? || actualStatusResult=$?
@@ -1124,10 +1100,6 @@ then
       [[ "${lDebminHome}" != "/mnt/d/gitserver/gitserver" ]] && (( lMismatches++ ))
       [[ "${lDebminHomeDOS}" != "d:\gitserver\gitserver" ]] && (( lMismatches++ ))
       [[ "${lDebminHomeWSD}" != "d:/gitserver/gitserver" ]] && (( lMismatches++ ))
-      [[ "${lDebminSourceImageName}" != "bitnami/minideb:jessie" ]] && (( lMismatches++ ))
-      [[ "${lTZPath}" != "${__TZ_PATH}" ]] && (( lMismatches++ ))
-      [[ "${lTZName}" != "${__TZ_NAME}" ]] && (( lMismatches++ ))
-      [[ "${lGlobalShellProfile}" != "/etc/profile" ]] && (( lMismatches++ ))
       [[ "${lDockerfilePath}" != "/mnt/d/gitserver/gitserver/Dockerfile.gitserver" ]] && (( lMismatches++ ))
       [[ "${lRemoveContainerOnStop}" != "0" ]] && (( lMismatches++ ))
       [[ "${lNeedsRebuilding}" != "1" ]] && (( lMismatches++ ))
@@ -1158,10 +1130,6 @@ then
     local lDebminHome="/mnt/d/gitserver/gitserver/_commonUtils/areNotRight"
     local lDebminHomeDOS=""
     local lDebminHomeWSD=""
-    local lDebminSourceImageName=""
-    local lTZPath=""
-    local lTZName=""
-    local lGlobalShellProfile=""
     local lDockerfilePath=""
     local lRemoveContainerOnStop=""
     local lNeedsRebuilding=""
@@ -1177,10 +1145,6 @@ then
         "lDebminHome" \
         "lDebminHomeDOS" \
         "lDebminHomeWSD" \
-        "lDebminSourceImageName" \
-        "lTZPath" \
-        "lTZName" \
-        "lGlobalShellProfile" \
         "lDockerfilePath" \
         "lRemoveContainerOnStop" \
         "lNeedsRebuilding" ) && actualStatusResult=$? || actualStatusResult=$?
@@ -1207,10 +1171,6 @@ then
     local lDebminHome="/mnt/d/gitserver/gitserver/backups"
     local lDebminHomeDOS=""
     local lDebminHomeWSD=""
-    local lDebminSourceImageName=""
-    local lTZPath=""
-    local lTZName=""
-    local lGlobalShellProfile=""
     local lDockerfilePath=""
     local lRemoveContainerOnStop=""
     local lNeedsRebuilding=""
@@ -1227,10 +1187,6 @@ then
         "lDebminHome" \
         "lDebminHomeDOS" \
         "lDebminHomeWSD" \
-        "lDebminSourceImageName" \
-        "lTZPath" \
-        "lTZName" \
-        "lGlobalShellProfile" \
         "lDockerfilePath" \
         "lRemoveContainerOnStop" \
         "lNeedsRebuilding" && actualStatusResult=$? || actualStatusResult=$?
@@ -1257,10 +1213,6 @@ then
       [[ "${lDebminHome}" != "/mnt/d/gitserver/gitserver" ]] && (( lMismatches++ ))
       [[ "${lDebminHomeDOS}" != "d:\gitserver\gitserver" ]] && (( lMismatches++ ))
       [[ "${lDebminHomeWSD}" != "d:/gitserver/gitserver" ]] && (( lMismatches++ ))
-      [[ "${lDebminSourceImageName}" != "bitnami/minideb:jessie" ]] && (( lMismatches++ ))
-      [[ "${lTZPath}" != "${__TZ_PATH}" ]] && (( lMismatches++ ))
-      [[ "${lTZName}" != "${__TZ_NAME}" ]] && (( lMismatches++ ))
-      [[ "${lGlobalShellProfile}" != "/etc/profile" ]] && (( lMismatches++ ))
       [[ "${lDockerfilePath}" != "/mnt/d/gitserver/gitserver/Dockerfile.gitserver" ]] && (( lMismatches++ ))
       [[ "${lRemoveContainerOnStop}" != "0" ]] && (( lMismatches++ ))
       [[ "${lNeedsRebuilding}" != "1" ]] && (( lMismatches++ ))

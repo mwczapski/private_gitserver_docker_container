@@ -72,7 +72,6 @@ EXAMPLE----------------------------------------------------------
 
 function fn__ContainerExists() {
   local pContainerName=${1?"Usage: ${0}:${FUNCNAME} requires Container Name as 1st argument"}
-  # ${__DOCKER_EXE} container ls | grep $pContainerName >/dev/null && return 0 || return 1
   ${__DOCKER_EXE} container ls -a | grep ${pContainerName} > /dev/null && return ${__YES} || return ${__NO}
   return ${__NO}
 }
@@ -331,8 +330,9 @@ function fn__ExecCommandInContainer() {
   local pContainerShell=${3?"${lUsage}"}
   local pContainerCommand=${4?"${lUsage}"}
 
-  ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" 2>/dev/null && STS=$? || STS=$?
-  [[ ${STS} -eq 0 ]] && STS=${__DONE}|| STS=${__FAILED}
+  # ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" 2>/dev/null && STS=$? || STS=$?
+  ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" && STS=$? || STS=$?
+  [[ ${STS} -eq ${__SUCCESS} ]] && STS=${__DONE}|| STS=${__FAILED}
 
   return ${STS}
 }

@@ -55,17 +55,13 @@ function fn__SetEnvironmentVariables() {
       "__DEBMIN_HOME"  \
       "__DEBMIN_HOME_DOS"  \
       "__DEBMIN_HOME_WSD" \
-      "__DEBMIN_SOURCE_IMAGE_NAME"  \
-      "__TZ_PATH"  \
-      "__TZ_NAME"  \
-      "__ENV"  \
       "__DOCKERFILE_PATH"  \
       "__REMOVE_CONTAINER_ON_STOP"  \
       "__NEEDS_REBUILDING"  \
     '
   # this picks up missing arguments
   #
-  [[ $# -lt 13 || "${0^^}" == "HELP" ]] && {
+  [[ $# -lt 9 || "${0^^}" == "HELP" ]] && {
     echo -e "${__INSUFFICIENT_ARGS}\n${lUsage}"
     return ${__FAILED}
   }
@@ -80,10 +76,6 @@ function fn__SetEnvironmentVariables() {
   fn__RefVariableExists ${7} || { echo "7th Argument value, '${7}', is invalid"; return ${__FAILED} ; }
   fn__RefVariableExists ${8} || { echo "8th Argument value, '${8}', is invalid"; return ${__FAILED} ; }
   fn__RefVariableExists ${9} || { echo "9th Argument value, '${9}', is invalid"; return ${__FAILED} ; }
-  fn__RefVariableExists ${10} || { echo "10th Argument value, '${10}', is invalid"; return ${__FAILED} ; }
-  fn__RefVariableExists ${11} || { echo "11th Argument value, '${11}', is invalid"; return ${__FAILED} ; }
-  fn__RefVariableExists ${12} || { echo "12th Argument value, '${12}', is invalid"; return ${__FAILED} ; }
-  fn__RefVariableExists ${13} || { echo "13th Argument value, '${13}', is invalid"; return ${__FAILED} ; }
 
   # name reference variables
   #
@@ -93,13 +85,9 @@ function fn__SetEnvironmentVariables() {
   local -n rDebminHome=${4}
   local -n rDebminHomeDOS=${5}
   local -n rDebminHomeWSD=${6}
-  local -n rDebminSourceImageName=${7}
-  local -n rTZPath=${8} 
-  local -n rTZName=${9}
-  local -n rGlobalShellProfile=${10}
-  local -n rDockerfilePath=${11}
-  local -n rRemoveContainerOnStop=${12}
-  local -n rNeedsRebuilding=${13}
+  local -n rDockerfilePath=${7}
+  local -n rRemoveContainerOnStop=${8}
+  local -n rNeedsRebuilding=${9}
 
   test ${#rScriptsDirectoryName} -lt 1 &&  { echo "1st Argument, '${1}', must have a valid value"; return ${__FAILED} ; }
   test ${#rGitserverImageName} -lt 1 &&  { echo "2nd Argument, '${2}', must have a valid value"; return ${__FAILED} ; }
@@ -115,10 +103,6 @@ function fn__SetEnvironmentVariables() {
 
   rDebminHomeDOS=$(fn__WSLPathToRealDosPath ${rDebminHome})
   rDebminHomeWSD=$(fn__WSLPathToWSDPath ${rDebminHome})
-  rDebminSourceImageName="bitnami/minideb:jessie"
-  rTZPath="${__TZ_PATH}"
-  rTZName="${__TZ_NAME}"
-  rGlobalShellProfile="${rGitserverShellGlobalProfile}"
   rDockerfilePath=${rDebminHome}/Dockerfile.${rGitserverImageName}
 
   ## options toggles 
@@ -128,10 +112,6 @@ function fn__SetEnvironmentVariables() {
   # echo "rDebminHome: |${rDebminHome}|"
   # echo "rDebminHomeDOS: |${rDebminHomeDOS}|"
   # echo "rDebminHomeWSD: |${rDebminHomeWSD}|"
-  # echo "rDebminSourceImageName: |${rDebminSourceImageName}|"
-  # echo "rTZPath: |${rTZPath}|"
-  # echo "rTZName: |${rTZName}|"
-  # echo "rGlobalShellProfile: |${rGlobalShellProfile}|"
   # echo "rDockerfilePath: |${rDockerfilePath}|"
   # echo "rRemoveContainerOnStop: |${rRemoveContainerOnStop}|"
   # echo "rNeedsRebuilding: |${rNeedsRebuilding}|"
@@ -190,7 +170,7 @@ EOF
 :<<-'------------Function_Usage_Note-------------------------------'
   Usage: 
     fn__CreateDockerfile \
-      "${__DEBMIN_SOURCE_IMAGE_NAME}"
+      "${__DEBMIN_SOURCE_IMAGE_NAME}" \
       "${__GIT_USERNAME}" \
       "${__GITSERVER_SHELL}"  \
       "${__GITSERVER_SHELL_PROFILE}"  \
@@ -232,7 +212,7 @@ function fn__CreateDockerfile() {
   local -r lrGlobalShellProfile=${7}
   local -r lrGitserverReposRoot=${8}
   local -r lrDockerfilePath=${9}
-  local -r lrNeedsRebuilding=${10}
+  local lNeedsRebuilding=${10}
 
   test ${#lrDebminSourceImageName} -lt 1 && return ${__INVALID_VALUE}
   test ${#lrGitUsername} -lt 1 && return ${__INVALID_VALUE}
@@ -243,7 +223,7 @@ function fn__CreateDockerfile() {
   test ${#lrGlobalShellProfile} -lt 1 && return ${__INVALID_VALUE}
   test ${#lrGitserverReposRoot} -lt 1 && return ${__INVALID_VALUE}
   test ${#lrDockerfilePath} -lt 1 && return ${__INVALID_VALUE}
-  test ${#lrNeedsRebuilding} -lt 1 && return ${__INVALID_VALUE}
+  test ${#lNeedsRebuilding} -lt 1 && return ${__INVALID_VALUE}
 
   # create Dockerfile
   # local rNeedsRebuilding=${__NO}
@@ -325,8 +305,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \\
     mkdir -pv /home/\${DEBMIN_USERNAME}/.ssh/ && \\
     touch /home/\${DEBMIN_USERNAME}/.ssh/authorized_keys && \\
     chmod 600 /home/\${DEBMIN_USERNAME}/.ssh/authorized_keys && \\
-    mkdir -pv \${GITSERVER_REPOS_ROOT} && \\
-    chown -Rv \${DEBMIN_USERNAME}:developers \${GITSERVER_REPOS_ROOT} && \\
+    mkdir -p \${GITSERVER_REPOS_ROOT} && \\
+    chown -R \${DEBMIN_USERNAME}:developers \${GITSERVER_REPOS_ROOT} && \\
     chmod -v g+rxs \${GITSERVER_REPOS_ROOT} && \\
     echo /usr/bin/git-shell >> /etc/shells && \\
     chsh git -s /usr/bin/git-shell && \\
@@ -355,12 +335,12 @@ EOF
         || STS=${__DIFFERENT}
 
     if [[ ${STS} -eq ${__DIFFERENT} ]]; then
-      lrNeedsRebuilding=${__YES}
+      lNeedsRebuilding=${__YES}
     else
       rm -f ${lrDockerfilePath}_${TS}
     fi
   fi
-  return ${lrNeedsRebuilding}
+  return ${lNeedsRebuilding}
 }
 
 
@@ -386,7 +366,7 @@ function fn__UpdateOwnershipOfNonRootUserResources() {
   test -z ${2} 2>/dev/null && return ${__EMPTY_ARGUMENT_NOT_ALLOWED}
   test -z ${3} 2>/dev/null && return ${__EMPTY_ARGUMENT_NOT_ALLOWED}
   test -z ${5} 2>/dev/null && return ${__EMPTY_ARGUMENT_NOT_ALLOWED}
-  test -z ${5} 2>/dev/null && return ${__EMPTY_ARGUMENT_NOT_ALLOWED}
+  test -z ${6} 2>/dev/null && return ${__EMPTY_ARGUMENT_NOT_ALLOWED}
 
   local -r pContainerName="${1}"
   local -r pGitUsername="${2}"
@@ -450,7 +430,8 @@ function fn__MakeCustomGitShellCommandsDirectory() {
     "${_CMD_}" \
       && STS=${__DONE} \
       || STS=${__FAILED}
-  echo "______ Created Custom Git Shell Commands directory"; 
+
+  return ${__DONE}
 }
 
 
@@ -579,7 +560,7 @@ EOF
         && STS=${__DONE} \
         || STS=${__FAILED}
 
-  _CMD_="chown -Rv ${__GIT_USERNAME}:${__GIT_USERNAME} ${__GITSERVER_GUEST_HOME}"
+  _CMD_="chown -R ${__GIT_USERNAME}:${__GIT_USERNAME} ${__GITSERVER_GUEST_HOME}"
   fn__ExecCommandInContainer \
     ${pServerContainerName} \
     "root" \
@@ -588,6 +569,5 @@ EOF
       && STS=${__DONE} \
       || STS=${__FAILED}
   echo "______ Re-established ownership on ${__GIT_USERNAME} directory tree"; 
-
 
 }
