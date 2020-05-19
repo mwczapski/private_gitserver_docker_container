@@ -187,7 +187,7 @@ function fn__CreateDockerComposeFile() {
   local -r lNodeModuleAnonVolume=${pHostBoundVolumeString##*:}
 
   # create Dockerfile
-  local TS=$(date '+%Y%m%d_%H%M%s.%s')
+  local TS=$(date '+%Y%m%d_%H%M%S')
   [[ -e ${pHostWSLPathToComposeFile} ]] &&
     cp ${pHostWSLPathToComposeFile} ${pHostWSLPathToComposeFile}_${TS}
     

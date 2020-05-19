@@ -233,7 +233,7 @@ function fn__GenerateSSHKeyPairInWSLHost() {
 
   # generate id_rsa keypair
   #
-  TS=$(date +%F_%T)
+  TS=$(date '+%Y%m%d_%H%M%S')
   mv -f ${HOME}/.ssh/id_rsa.pub ${HOME}/.ssh/id_rsa.pub_${TS} || true
   mv -f ${HOME}/.ssh/id_rsa ${HOME}/.ssh/id_rsa_${TS} || true
   ssh-keygen -f ${HOME}/.ssh/id_rsa -t rsa -b 4096 -q -N "" >/dev/null && STS=$? || STS=$?
