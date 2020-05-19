@@ -29,124 +29,8 @@ trap traperr ERR
 
 [[ ${fn__CreateWindowsShortcut} ]] || source ./utils/fn__CreateWindowsShortcut.sh
 
-[[ ${_02_create_gitserver_container_utils} ]] || source ./utils/02_create_gitserver_container_utils.sh
+[[ ${_02_create_gitserver_container_utils} ]] || source ./02_create_gitserver_container_utils.sh
 
-
-
-
-function fn__CreateWindowsShortcutsForShellInContainer() {
-    local lUsage='
-      Usage: 
-        fn__CreateWindowsShortcutsForShellInContainer \
-          "${__GITSERVER_CONTAINER_NAME}" \
-          "${__DEBMIN_HOME_DOS}" \
-          "${__GITSERVER_SHELL}" \
-          "${__DOCKER_COMPOSE_FILE_DOS}" && STS=${__DONE} || STS=${__FAILED}
-      '
-  [[ $# -lt  3 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
-    return ${__FAILED}
-  }
- 
-  local -r pContainerName=${1?"Container Name to be assigned to the container"}
-  local -r pHomeDosPath=${2?"Host Path, in DOS format, to write shortcuts to"}
-  local -r pShellInContainer=${3?"Shell to use on connection to the container"}
-  local -r pDockerComposeFileDos=${4?"Full DOS path to docker-compose.yml_XXX file "}
-
-  local lDockerComposeCommand=""
-  local lARGS=""
-  local lDockerContainerCommandLine=""
-
-  # create windows shortcuts for shell in container
-
-  lARGS="/c wsl -d Debian -- bash -lc \"docker.exe container exec -itu ${__GIT_USERNAME} --workdir ${__GITSERVER_GUEST_HOME} ${pContainerName} ${pShellInContainer} -l\" || pause"
-  fn__CreateWindowsShortcut \
-    "${pHomeDosPath}\dcc exec -itu ${__GIT_USERNAME} ${pContainerName}.lnk" \
-    "C:\Windows\System32\cmd.exe" \
-    "%~dp0" \
-    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
-    "C:\Windows\System32\wsl.exe" \
-    "${lARGS}"
-
-  lARGS="/c wsl -d Debian -- bash -lc \"docker.exe container exec -itu root --workdir / ${pContainerName} ${pShellInContainer} -l\" || pause"
-  fn__CreateWindowsShortcut \
-    "${pHomeDosPath}\dcc exec -itu root ${pContainerName}.lnk" \
-    "C:\Windows\System32\cmd.exe" \
-    "%~dp0" \
-    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
-    "C:\Windows\System32\wsl.exe" \
-    "${lARGS}"
-
-  lDockerComposeCommand="up --detach"
-  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
-    "${pDockerComposeFileDos}" \
-    "${pContainerName}" \
-    "${lDockerComposeCommand}"
-    )
-  lARGS="/c ${lDockerContainerCommandLine} || pause"
-  fn__CreateWindowsShortcut \
-    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
-    "C:\Windows\System32\cmd.exe" \
-    "%~dp0" \
-    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
-    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
-    "${lARGS}"
-
-
-  lDockerComposeCommand="stop"
-  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
-    "${pDockerComposeFileDos}" \
-    "${pContainerName}" \
-    "${lDockerComposeCommand}"
-    )
-  lARGS="/c ${lDockerContainerCommandLine} || pause"
-  fn__CreateWindowsShortcut \
-    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
-    "C:\Windows\System32\cmd.exe" \
-    "%~dp0" \
-    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
-    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
-    "${lARGS}"
-
-
-  lDockerComposeCommand="ps"
-  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
-    "${pDockerComposeFileDos}" \
-    "${pContainerName}" \
-    "${lDockerComposeCommand}"
-    )
-  lARGS="/c ${lDockerContainerCommandLine} && pause"
-  fn__CreateWindowsShortcut \
-    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
-    "C:\Windows\System32\cmd.exe" \
-    "%~dp0" \
-    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
-    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
-    "${lARGS}"
-
-
-  lDockerComposeCommand="rm -s -v"
-  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
-    "${pDockerComposeFileDos}" \
-    "${pContainerName}" \
-    "${lDockerComposeCommand}"
-    )
-  lARGS="/c ${lDockerContainerCommandLine} || pause"
-  fn__CreateWindowsShortcut \
-    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
-    "C:\Windows\System32\cmd.exe" \
-    "%~dp0" \
-    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
-    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
-    "${lARGS}"
-
-
-  return ${__DONE}
-}
-
-function fnTestTest() {
-  return ${__YES}
-}
 
 :<<-'COMMENT-----------------------------------------------'
 
@@ -173,9 +57,13 @@ readonly __CWD_NAME=$(basename ${__DEBMIN_HOME})
   exit
 }
 
-
 declare __CONTAINER_SOURCE_IMAGE_NAME
-fn__SetEnvironmentVariablese
+declare __DEBMIN_HOME_WSD
+declare __DEBMIN_HOME_DOS
+declare __DOCKER_COMPOSE_FILE_WLS
+declare __DOCKER_COMPOSE_FILE_DOS
+
+fn__SetEnvironmentVariables \
   "${__DEBMIN_HOME}" \
   "${__GITSERVER_USERNAME}" \
   "${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}" \
@@ -250,7 +138,7 @@ fn__ImageExists \
         || {
           echo "______ Cannot find image ${__CONTAINER_SOURCE_IMAGE_NAME} [${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}]" 
           echo "______ Aborting script execution ..." 
-          exit
+          exit ${__FAILED}
         }
   }
 
@@ -267,20 +155,13 @@ if [[ $STS -eq ${__YES} ]]; then
 
     echo "______ Container ${__GITSERVER_CONTAINER_NAME} Exist and is running ... - nothing needs doing"; 
 
-    ## ######################################
-    ## ######################################
-    # fnTestTest
-    #     exit
-    ## ######################################
-    ## ######################################
-
   else
     fn__StartContainer ${__GITSERVER_CONTAINER_NAME} && STS=${__YES} || STS=${__NO}
     if [[ $STS -eq ${__DONE} ]]; then
         echo "______ Container ${__GITSERVER_CONTAINER_NAME} started"; 
     else
         echo "______ Failed to start container ${__GITSERVER_CONTAINER_NAME} - investigate..."; 
-        exit
+        exit ${__FAILED}
     fi
   fi
 
@@ -291,21 +172,9 @@ else
     echo "______ Container ${__GITSERVER_CONTAINER_NAME} started"; 
   else
     echo "______ Failed to start container ${__GITSERVER_CONTAINER_NAME} - investigate"; 
-    exit
+    exit ${__FAILED}
   fi
 fi
-
-
-_CMD_="service ssh start"
-fn__ExecCommandInContainer \
-  ${__GITSERVER_CONTAINER_NAME} \
-  "root" \
-  ${__GITSERVER_SHELL} \
-  "${_CMD_}" \
-    && STS=${__DONE} \
-    || STS=${__FAILED}
-echo "______ Started ssh server in ${__GITSERVER_CONTAINER_NAME} container"; 
-
 
 [[ ${_CREATE_WINDOWS_SHORTCUTS_} -eq ${__YES} ]] && {
   fn__CreateWindowsShortcutsForShellInContainer \
@@ -319,3 +188,5 @@ echo "______ Started ssh server in ${__GITSERVER_CONTAINER_NAME} container";
 echo "______ Container ${__GITSERVER_CONTAINER_NAME} is running"; 
 
 echo "______ ${0} Done"
+
+exit ${__SUCCESS}

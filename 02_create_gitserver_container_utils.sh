@@ -21,6 +21,117 @@ declare -ur _02_create_gitserver_container_utils="SOURCED"
 
 
 
+function fn__CreateWindowsShortcutsForShellInContainer() {
+    local lUsage='
+      Usage: 
+        fn__CreateWindowsShortcutsForShellInContainer \
+          "${__GITSERVER_CONTAINER_NAME}" \
+          "${__DEBMIN_HOME_DOS}" \
+          "${__GITSERVER_SHELL}" \
+          "${__DOCKER_COMPOSE_FILE_DOS}" && STS=${__DONE} || STS=${__FAILED}
+      '
+  [[ $# -lt  3 || "${0^^}" == "HELP" ]] && {
+    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    return ${__FAILED}
+  }
+ 
+  local -r pContainerName=${1?"Container Name to be assigned to the container"}
+  local -r pHomeDosPath=${2?"Host Path, in DOS format, to write shortcuts to"}
+  local -r pShellInContainer=${3?"Shell to use on connection to the container"}
+  local -r pDockerComposeFileDos=${4?"Full DOS path to docker-compose.yml_XXX file "}
+
+  local lDockerComposeCommand=""
+  local lARGS=""
+  local lDockerContainerCommandLine=""
+
+  # create windows shortcuts for shell in container
+
+  lARGS="/c wsl -d Debian -- bash -lc \"docker.exe container exec -itu ${__GIT_USERNAME} --workdir ${__GITSERVER_GUEST_HOME} ${pContainerName} ${pShellInContainer} -l\" || pause"
+  fn__CreateWindowsShortcut \
+    "${pHomeDosPath}\dcc exec -itu ${__GIT_USERNAME} ${pContainerName}.lnk" \
+    "C:\Windows\System32\cmd.exe" \
+    "%~dp0" \
+    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
+    "C:\Windows\System32\wsl.exe" \
+    "${lARGS}"
+
+  lARGS="/c wsl -d Debian -- bash -lc \"docker.exe container exec -itu root --workdir / ${pContainerName} ${pShellInContainer} -l\" || pause"
+  fn__CreateWindowsShortcut \
+    "${pHomeDosPath}\dcc exec -itu root ${pContainerName}.lnk" \
+    "C:\Windows\System32\cmd.exe" \
+    "%~dp0" \
+    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
+    "C:\Windows\System32\wsl.exe" \
+    "${lARGS}"
+
+  lDockerComposeCommand="up --detach"
+  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
+    "${pDockerComposeFileDos}" \
+    "${pContainerName}" \
+    "${lDockerComposeCommand}"
+    )
+  lARGS="/c ${lDockerContainerCommandLine} || pause"
+  fn__CreateWindowsShortcut \
+    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
+    "C:\Windows\System32\cmd.exe" \
+    "%~dp0" \
+    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
+    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
+    "${lARGS}"
+
+
+  lDockerComposeCommand="stop"
+  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
+    "${pDockerComposeFileDos}" \
+    "${pContainerName}" \
+    "${lDockerComposeCommand}"
+    )
+  lARGS="/c ${lDockerContainerCommandLine} || pause"
+  fn__CreateWindowsShortcut \
+    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
+    "C:\Windows\System32\cmd.exe" \
+    "%~dp0" \
+    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
+    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
+    "${lARGS}"
+
+
+  lDockerComposeCommand="ps"
+  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
+    "${pDockerComposeFileDos}" \
+    "${pContainerName}" \
+    "${lDockerComposeCommand}"
+    )
+  lARGS="/c ${lDockerContainerCommandLine} && pause"
+  fn__CreateWindowsShortcut \
+    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
+    "C:\Windows\System32\cmd.exe" \
+    "%~dp0" \
+    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
+    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
+    "${lARGS}"
+
+
+  lDockerComposeCommand="rm -s -v"
+  lDockerContainerCommandLine=$(fn_GetDockerComposeDOSCommandLine \
+    "${pDockerComposeFileDos}" \
+    "${pContainerName}" \
+    "${lDockerComposeCommand}"
+    )
+  lARGS="/c ${lDockerContainerCommandLine} || pause"
+  fn__CreateWindowsShortcut \
+    "${pHomeDosPath}\\dco ${pContainerName} ${lDockerComposeCommand}.lnk" \
+    "C:\Windows\System32\cmd.exe" \
+    "%~dp0" \
+    "${fn__CreateWindowsShortcut__RUN_NORMAL_WINDOW}" \
+    "C:\Program Files\Docker\Docker\resources\bin\docker.exe" \
+    "${lARGS}"
+
+
+  return ${__DONE}
+}
+
+
 
 
 
