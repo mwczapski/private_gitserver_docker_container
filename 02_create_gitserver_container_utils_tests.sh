@@ -1,7 +1,7 @@
 # #############################################
 # The MIT License (MIT)
 #
-# Copyright Â© 2020 Michael Czapski
+# Copyright � 2020 Michael Czapski
 # #############################################
 
 declare -u _02_create_gitserver_container_utils_tests="SOURCED"
