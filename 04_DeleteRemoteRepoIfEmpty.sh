@@ -40,7 +40,7 @@ function fn__InputIsValid() {
         || STS=${__FAILED}
         '
   [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "____ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -49,13 +49,13 @@ function fn__InputIsValid() {
   local -r pGiterverRemoteRepoNameMaxLen=${3?"${lUsage}"}
 
   [[ ${#pCanonicalClientGitRemoteRepoName} -lt 2 ]] && {
-    echo "______ Git repository name '${pClientGitRemoteRepoName}' translated to '${pCanonicalClientGitRemoteRepoName}'"
-    echo "______ Git repository name must be at least 2 characters long"
+    echo "____ Git repository name '${pClientGitRemoteRepoName}' translated to '${pCanonicalClientGitRemoteRepoName}'"
+    echo "____ Git repository name must be at least 2 characters long"
     return ${__FAILED}
   }
   [[ ${#pCanonicalClientGitRemoteRepoName} -gt ${pGiterverRemoteRepoNameMaxLen} ]] && {
-    echo "______ Final Git repository name '${pCanonicalClientGitRemoteRepoName}' is longer than the maximum of ${pGiterverRemoteRepoNameMaxLen} characters"
-    echo "______ Git repository name must be no longer than ${pGiterverRemoteRepoNameMaxLen} characters"
+    echo "____ Final Git repository name '${pCanonicalClientGitRemoteRepoName}' is longer than the maximum of ${pGiterverRemoteRepoNameMaxLen} characters"
+    echo "____ Git repository name must be no longer than ${pGiterverRemoteRepoNameMaxLen} characters"
     return ${__FAILED}
   }
 
@@ -85,10 +85,10 @@ fn__InputIsValid \
   "${pClientGitRemoteRepoName}" \
   ${lCanonicalClientGitRemoteRepoName} \
   ${__GITSERVER_REMOTE_REPO_NAME_MAX_LEN} || {
-    echo "______ (${LINENO}) Aborting ..."
+    echo "____ (${LINENO}) Aborting ..."
     exit ${__FAILED}
   }
-echo "______ Input accepted as ${lCanonicalClientGitRemoteRepoName}"
+echo "____ Input accepted as ${lCanonicalClientGitRemoteRepoName}"
 
 fn__IsSSHToRemoteServerAuthorised \
   ${__GITSERVER_CONTAINER_NAME} \
@@ -97,11 +97,11 @@ fn__IsSSHToRemoteServerAuthorised \
   ${__GITSERVER_SHELL} && STS=$? || STS=$?
 
 if [[ $STS -eq ${__NO} ]]; then
-  echo "______ Client not authorised to connect to the server - please contact server administrator"
-  echo "______ (${LINENO}) Aborting ..."
+  echo "____ Client not authorised to connect to the server - please contact server administrator"
+  echo "____ (${LINENO}) Aborting ..."
   exit ${__FAILED}
 fi
-echo "______ Client authorised to interact with the server"
+echo "____ Client authorised to interact with the server"
 
 
 fn__DoesRepoAlreadyExist \
@@ -111,14 +111,14 @@ fn__DoesRepoAlreadyExist \
   ${__GITSERVER_SHELL} && STS=$? || STS=$? # can be __NO or __EXECUTION_ERROR
 
   [[ ${STS} -eq ${__EXECUTION_ERROR} ]] && {
-      echo "______ Failed to determine whether Git Repository ${lCanonicalClientGitRemoteRepoName} already exists - aborting"
+      echo "____ Failed to determine whether Git Repository ${lCanonicalClientGitRemoteRepoName} already exists - aborting"
       exit ${__FAILED}
   }
   [[ ${STS} -eq ${__NO} ]] && {
-      echo "______ Git Repository ${lCanonicalClientGitRemoteRepoName} does not exists - aborting"
+      echo "____ Git Repository ${lCanonicalClientGitRemoteRepoName} does not exists - aborting"
       exit ${__FAILED}
   }
-echo "______ Repository ${lCanonicalCanonicalClientGitRemoteRepoName} exists"
+echo "____ Repository ${lCanonicalCanonicalClientGitRemoteRepoName} exists"
  
 
 fn__IsRepositoryEmpty \
@@ -130,11 +130,11 @@ fn__IsRepositoryEmpty \
 
 if [[ $STS -eq ${__NO} ]]
 then
-  echo "______ Repository ${lCanonicalClientGitRemoteRepoName} is not empty - can't delete it using this method - please see server administrator"
-  echo "______ (${LINENO}) Aborting ..."
+  echo "____ Repository ${lCanonicalClientGitRemoteRepoName} is not empty - can't delete it using this method - please see server administrator"
+  echo "____ (${LINENO}) Aborting ..."
   exit ${__FAILED}
 fi
-echo "______ Repository ${lCanonicalClientGitRemoteRepoName} is empty"
+echo "____ Repository ${lCanonicalClientGitRemoteRepoName} is empty"
 
 fn__DeleteEmptyRemoteRepository \
   ${lCanonicalClientGitRemoteRepoName}  \
@@ -147,8 +147,8 @@ fn__DeleteEmptyRemoteRepository \
 
 if [[ $STS -eq ${__FAILED} ]]
 then
-  echo "______ Failed to delete repository ${lCanonicalClientGitRemoteRepoName} - please see server administrator"
-  echo "______ (${LINENO}) Aborting ..."
+  echo "____ Failed to delete repository ${lCanonicalClientGitRemoteRepoName} - please see server administrator"
+  echo "____ (${LINENO}) Aborting ..."
   exit ${__FAILED}
 fi
 
@@ -159,13 +159,13 @@ fn__DoesRepoAlreadyExist \
   ${__GITSERVER_SHELL} && STS=$? || STS=$? # can be __NO or __EXECUTION_ERROR
 
   [[ ${STS} -eq ${__EXECUTION_ERROR} ]] && {
-      echo "______ Failed to determine whether Git Repository ${lCanonicalClientGitRemoteRepoName} still exists - aborting"
+      echo "____ Failed to determine whether Git Repository ${lCanonicalClientGitRemoteRepoName} still exists - aborting"
       exit ${__FAILED}
   }
   [[ ${STS} -eq ${__YES} ]] && {
-      echo "______ Git Repository ${lCanonicalClientGitRemoteRepoName} still exists - please see server administrator"
+      echo "____ Git Repository ${lCanonicalClientGitRemoteRepoName} still exists - please see server administrator"
       exit ${__FAILED}
   }
-echo "______ Repository ${lCanonicalCanonicalClientGitRemoteRepoName} deleted"
+echo "____ Repository ${lCanonicalCanonicalClientGitRemoteRepoName} deleted"
 
 exit ${__DONE} 

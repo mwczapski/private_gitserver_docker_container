@@ -55,4 +55,4 @@ then
   exit ${__FAILED}
 fi
 
-echo "______ Local WSL Client SSH Public Key added to authorized_hosts '${__GIT_USERNAME}@${__GITSERVER_CONTAINER_NAME}'..."
+echo "____ Local WSL Client SSH Public Key added to authorized_hosts '${__GIT_USERNAME}@${__GITSERVER_CONTAINER_NAME}'..."

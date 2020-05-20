@@ -209,17 +209,17 @@ function fn__FileSameButForDate() {
 ------------Function_Usage_Note-------------------------------
 function fn__IsValidRegEx() {
   [[ $# -lt 1 ]] && {
-    echo "______ Requires a shell regex to validate"
+    echo "____ Requires a shell regex to validate"
     return ${__FAILED}
   }
   local pRegEx="$@"
   [[ ${#pRegEx} -ge 3 ]] || {
-    echo "______ Alleged regular expression '${pRegEx}' must be at least 3 characters long"
+    echo "____ Alleged regular expression '${pRegEx}' must be at least 3 characters long"
     return ${__FAILED}
   }
   [[ "${pRegEx:0:1}" == "[" ]] && [[ "${pRegEx:${#pRegEx}-1}" == "]" ]] \
     || {
-      echo "______ Alleged regular expression '${pRegEx}' must start with [ and end with ]"
+      echo "____ Alleged regular expression '${pRegEx}' must start with [ and end with ]"
       return ${__FAILED}
     }
   
@@ -229,8 +229,8 @@ function fn__IsValidRegEx() {
 
 
 function fn__SanitizeInput() {
-  [[ $# -lt 1 ]] && { echo "______ Requires shell regex to use to determine valid characters and eliminate all that do not match"; return ${__FAILED} ; }
-  [[ $# -lt 2 ]] && { echo "______ Require string to sanitize"; return ${__FAILED} ; }
+  [[ $# -lt 1 ]] && { echo "____ Requires shell regex to use to determine valid characters and eliminate all that do not match"; return ${__FAILED} ; }
+  [[ $# -lt 2 ]] && { echo "____ Require string to sanitize"; return ${__FAILED} ; }
   local pRegEx="${@}"
   pRegEx="${pRegEx%%]*}]"
   local lMsg=$(fn__IsValidRegEx "${pRegEx}")
@@ -250,7 +250,7 @@ function fn__SanitizeInput() {
 
 
 function fn__SanitizeInputAlphaNum() {
-  [[ $# -lt 1 ]] && { echo "______ Require string which to sanitize"; return ${__FAILED} ; }
+  [[ $# -lt 1 ]] && { echo "____ Require string which to sanitize"; return ${__FAILED} ; }
   local pInput="$@"
   local pOutput=$(fn__SanitizeInput "[a-zA-Z0-9]" ${pInput}) && STS=${__SUCCESS}|| STS=${__FAILED}
   echo ${pOutput}
@@ -259,7 +259,7 @@ function fn__SanitizeInputAlphaNum() {
 
 
 function fn__SanitizeInputIdentifier() {
-  [[ $# -lt 1 ]] && { echo "______ Require string which to sanitize"; return ${__FAILED} ; }
+  [[ $# -lt 1 ]] && { echo "____ Require string which to sanitize"; return ${__FAILED} ; }
   local pInput="$@"
   local pOutput=$(fn__SanitizeInput "[a-zA-Z0-9_]" ${pInput}) && STS=$?|| STS=$?
   echo ${pOutput}
@@ -268,7 +268,7 @@ function fn__SanitizeInputIdentifier() {
 
 
 function fn__SanitizeInputAlpha() {
-  [[ $# -lt 1 ]] && { echo "______ Require string which to sanitize"; return ${__FAILED} ; }
+  [[ $# -lt 1 ]] && { echo "____ Require string which to sanitize"; return ${__FAILED} ; }
   local pInput="$@"
   local pOutput=$(fn__SanitizeInput "[a-zA-Z]" ${pInput}) && STS=$?|| STS=$?
   echo ${pOutput}
@@ -277,7 +277,7 @@ function fn__SanitizeInputAlpha() {
 
 
 function fn__SanitizeInputNumeric() {
-  [[ $# -lt 1 ]] && { echo "______ Require string which to sanitize"; return ${__FAILED} ; }
+  [[ $# -lt 1 ]] && { echo "____ Require string which to sanitize"; return ${__FAILED} ; }
   local pInput="$@"
   local pOutput=$(fn__SanitizeInput "[0-9]" ${pInput}) && STS=$?|| STS=$?
   echo ${pOutput}

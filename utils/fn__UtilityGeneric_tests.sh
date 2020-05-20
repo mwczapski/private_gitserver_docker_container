@@ -59,11 +59,11 @@ then
   testIntent="${functionName} function will return __FAILED and 'Requires a shell regex to validate'"
   function fn__IsValidRegEx_test_001 {
 
-    expectedStringResult="______ Requires a shell regex to validate"
+    expectedStringResult="____ Requires a shell regex to validate"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -85,7 +85,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -108,7 +108,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -131,7 +131,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -150,11 +150,11 @@ then
   function fn__IsValidRegEx_test_005 {
     local -r lrRegEx="[a-z"
 
-    expectedStringResult="______ Alleged regular expression '[a-z' must start with [ and end with ]"
+    expectedStringResult="____ Alleged regular expression '[a-z' must start with [ and end with ]"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -173,11 +173,11 @@ then
   function fn__IsValidRegEx_test_006 {
     local -r lrRegEx="a-z]"
 
-    expectedStringResult="______ Alleged regular expression 'a-z]' must start with [ and end with ]"
+    expectedStringResult="____ Alleged regular expression 'a-z]' must start with [ and end with ]"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -196,11 +196,11 @@ then
   function fn__IsValidRegEx_test_007 {
     local -r lrRegEx="a-z"
 
-    expectedStringResult="______ Alleged regular expression 'a-z' must start with [ and end with ]"
+    expectedStringResult="____ Alleged regular expression 'a-z' must start with [ and end with ]"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -219,11 +219,11 @@ then
   function fn__IsValidRegEx_test_008 {
     local -r lrRegEx="a-"
 
-    expectedStringResult="______ Alleged regular expression 'a-' must be at least 3 characters long"
+    expectedStringResult="____ Alleged regular expression 'a-' must be at least 3 characters long"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -246,7 +246,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -269,7 +269,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -292,7 +292,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -332,11 +332,11 @@ then
   testIntent="${functionName} function will return __FAILED and '______ Requires shell regex to use to determine valid characters and eliminate all that do not match'"
   function fn__SanitizeInput_test_001 {
 
-    expectedStringResult="______ Requires shell regex to use to determine valid characters and eliminate all that do not match"
+    expectedStringResult="____ Requires shell regex to use to determine valid characters and eliminate all that do not match"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -354,11 +354,11 @@ then
   function fn__SanitizeInput_test_002 {
     local -r lrRegEx="[a-zA-Z]"
 
-    expectedStringResult="______ Require string to sanitize"
+    expectedStringResult="____ Require string to sanitize"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -381,7 +381,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -404,7 +404,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -427,7 +427,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -450,7 +450,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -473,7 +473,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -496,7 +496,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrRegEx}" "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -534,11 +534,11 @@ then
   testIntent="${functionName} function will return __FAILED and '______ Require string which to sanitize'"
   function fn__SanitizeInputAlphaNum_test_001 {
 
-    expectedStringResult="______ Require string which to sanitize"
+    expectedStringResult="____ Require string which to sanitize"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -560,7 +560,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -582,7 +582,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -604,7 +604,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -642,11 +642,11 @@ then
   testIntent="${functionName} function will return __FAILED and '______ Require string which to sanitize'"
   function fn__SanitizeInputAlpha_test_001 {
 
-    expectedStringResult="______ Require string which to sanitize"
+    expectedStringResult="____ Require string which to sanitize"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -668,7 +668,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -690,7 +690,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -712,7 +712,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -750,11 +750,11 @@ then
   testIntent="${functionName} function will return __FAILED and '______ Require string which to sanitize'"
   function fn__SanitizeInputNumeric_test_001 {
 
-    expectedStringResult="______ Require string which to sanitize"
+    expectedStringResult="____ Require string which to sanitize"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -776,7 +776,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -798,7 +798,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -820,7 +820,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} "${lrInputStr}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -862,11 +862,11 @@ then
   testIntent="${functionName} function will return __FAILED and '______ Insufficient number of arguments'"
   function fn__FileSameButForDate_test_000 {
 
-    expectedStringResult="______ Insufficient number of arguments"
+    expectedStringResult="____ Insufficient number of arguments"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -884,11 +884,11 @@ then
   function fn__FileSameButForDate_test_001 {
     local -r lrFirstFilePath="${_TEMP_DIR_}/tmp_first_file"
 
-    expectedStringResult="______ Insufficient number of arguments"
+    expectedStringResult="____ Insufficient number of arguments"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrFirstFilePath}" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -914,7 +914,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     actualStringResult=$( ${functionName} ${lrFirstFilePath} ${lrSecondFilePath} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -940,7 +940,7 @@ then
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} ${lrFirstFilePath} ${lrSecondFilePath} ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -995,7 +995,7 @@ then
     expectedStringResult=${__INSUFFICIENT_ARGS}
     expectedStatusResult=${__FAILED}
     actualStringResult=$( ${functionName} "linPromptString" "linMaxLength" "linTimeoutSecs" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1019,7 +1019,7 @@ then
     expectedStringResult="3rd Argument value, '', is invalid"
     expectedStatusResult=${__FAILED}
     actualStringResult=$( ${functionName} "linPromptString" "linMaxLength" "" "" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
     # actualStringResult=${actualStringResult:0:${#expectedStringResult}}
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1043,7 +1043,7 @@ then
     expectedStringResult="4th Argument value, '', is invalid"
     expectedStatusResult=${__FAILED}
     actualStringResult=$( ${functionName} "linPromptString" "linMaxLength" "inTimeoutSecs" "" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
     # actualStringResult=${actualStringResult:0:${#expectedStringResult}}
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1069,7 +1069,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     ${functionName} "inPromptString" "inMaxLength" "inTimeoutSecs" "fn__GetValidIdentifierInput_test_004_outValidValue" <<<"${testValue}" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${fn__GetValidIdentifierInput_test_004_outValidValue} ]] && echo "______ ${LINENO}: ${functionName}: ${fn__GetValidIdentifierInput_test_004_outValidValue}" 
+    # [[ ${fn__GetValidIdentifierInput_test_004_outValidValue} ]] && echo "____ ${LINENO}: ${functionName}: ${fn__GetValidIdentifierInput_test_004_outValidValue}" 
     assessReturnStatusAndStdOut \
       "${functionName}" \
       ${LINENO} \
@@ -1095,7 +1095,7 @@ then
     expectedStatusResult=${__FAILED}
 
     echo "${testValue}" | ${functionName} "inPromptString" "inMaxLength" "inTimeoutSecs" "fn__GetValidIdentifierInput_test_005_outValidValue" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${outValidValue} ]] && echo "______ ${LINENO}: ${functionName}: ${outValidValue}" 
+    # [[ ${outValidValue} ]] && echo "____ ${LINENO}: ${functionName}: ${outValidValue}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1121,7 +1121,7 @@ then
     expectedStatusResult=${__SUCCESS}
 
     ${functionName} "inPromptString" "inMaxLength" "inTimeoutSecs" "outValidValue" 1>&2 2>/dev/null && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${outValidValue} ]] && echo "______ ${LINENO}: ${functionName}: ${outValidValue}" 
+    # [[ ${outValidValue} ]] && echo "____ ${LINENO}: ${functionName}: ${outValidValue}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1157,11 +1157,11 @@ then
 
   testIntent="${functionName} function will return __FAILURE status when prompt argument is not provided"
   function fn__ConfirmYN_test_001 {
-    expectedStringResult="______ Insufficient number of arguments"
+    expectedStringResult="____ Insufficient number of arguments"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} && actualStatusResult=$? ) || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1182,7 +1182,7 @@ then
     local -r expectedStatusResult=${__NO}
 
     echo "" | ${functionName} "${pPrompt}" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1203,7 +1203,7 @@ then
     local -r expectedStatusResult=${__NO}
 
     echo "N" | ${functionName} "${pPrompt}" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1224,7 +1224,7 @@ then
     local -r expectedStatusResult=${__NO}
 
     echo "Noooooo" | ${functionName} "${pPrompt}" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1245,7 +1245,7 @@ then
     local -r expectedStatusResult=${__YES}
 
     echo "Yes" | ${functionName} "${pPrompt}" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1266,7 +1266,7 @@ then
     local -r expectedStatusResult=${__YES}
 
     echo "y" | ${functionName} "${pPrompt}" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1307,7 +1307,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1329,7 +1329,7 @@ then
 
     ${functionName} "" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1351,7 +1351,7 @@ then
 
     ${functionName} "lRefVar" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1373,7 +1373,7 @@ then
 
     ${functionName} "lRefVar" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1395,7 +1395,7 @@ then
 
     ${functionName} "lRefVar" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1423,9 +1423,9 @@ fi
 # rm -rfv ${_TEMP_DIR_PREFIX}[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
 rm -Rf ${_TEMP_DIR_}
 
-echo "______ Executed $((iSuccessResults+iFailureResults)) tests"
-echo "______ ${iSuccessResults} tests were successful"
-echo "______ ${iFailureResults} tests failed"
+echo "____ Executed $((iSuccessResults+iFailureResults)) tests"
+echo "____ ${iSuccessResults} tests were successful"
+echo "____ ${iFailureResults} tests failed"
 
 # echo ${_TEMP_DIR_}
 

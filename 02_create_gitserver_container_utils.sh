@@ -31,7 +31,7 @@ function fn__CreateWindowsShortcutsForShellInContainer() {
           "${__DOCKER_COMPOSE_FILE_DOS}" && STS=${__DONE} || STS=${__FAILED}
       '
   [[ $# -lt  3 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "____ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -240,7 +240,7 @@ EOF
         || STS=${__DIFFERENT}
 
       if [[ ${STS} -ne ${__DIFFERENT} ]]; then
-        echo "______ docker-compose.yml_${pContainerName} changed - container may need updating" >/dev/null
+        echo "____ docker-compose.yml_${pContainerName} changed - container may need updating" >/dev/null
       else
         rm -f ${pHostWSLPathToComposeFile}_${TS}
       fi

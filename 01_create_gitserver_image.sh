@@ -42,7 +42,7 @@ function execute_01_create_gitserver_image() {
   fn__ConfirmYN "Push generated Docker Image to the remote docker repository?" && STS=${__YES} || STS=${__NO}
   readonly __PUSH_TO_REMOTE_DOCKER_REPO=$STS
 
-  echo "______ Push of the image to the remote Docker repository has $([[ ${__PUSH_TO_REMOTE_DOCKER_REPO} -eq ${__NO} ]] && echo "NOT ")been requested."
+  echo "____ Push of the image to the remote Docker repository has $([[ ${__PUSH_TO_REMOTE_DOCKER_REPO} -eq ${__NO} ]] && echo "NOT ")been requested."
 
   # confirm working directory
   #
@@ -96,17 +96,17 @@ function execute_01_create_gitserver_image() {
         ;;
       ${__INSUFFICIENT_ARGS_STS})
         echo "${__INSUFFICIENT_ARGS}"
-        echo "______ ${LINENO}: Aborting ..."
+        echo "____ ${LINENO}: Aborting ..."
         exit ${STS}
         ;;
       ${__EMPTY_ARGUMENT_NOT_ALLOWED})
         echo "_error Empty arguments not allowed"
-        echo "______ ${LINENO}: Aborting ..."
+        echo "____ ${LINENO}: Aborting ..."
         exit ${STS}
         ;;
       ${__INVALID_VALUE})
         echo "_error Argument has invalid value"
-        echo "______ ${LINENO}: Aborting ..."
+        echo "____ ${LINENO}: Aborting ..."
         exit ${STS}
         ;;
     esac
@@ -190,7 +190,7 @@ function execute_01_create_gitserver_image() {
             ${__DEBMIN_HOME_DOS}  \
             ${__DEBMIN_HOME}  \
               && {
-                echo "______ Created Custom Git Shell Commands"; 
+                echo "____ Created Custom Git Shell Commands"; 
               } \
               || STS=${__FAILED}
         } \

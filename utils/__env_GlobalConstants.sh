@@ -36,7 +36,7 @@ readonly __IDENTIFIER_MAX_LEN=40
 readonly __TZ_PATH="Australia/Sydney"
 readonly __TZ_NAME="Australia/Sydney"
 
-readonly __INSUFFICIENT_ARGS="______ Insufficient number of arguments"
+readonly __INSUFFICIENT_ARGS="____ Insufficient number of arguments"
 readonly __INSUFFICIENT_ARGS_STS=200
 readonly __EMPTY_ARGUMENT_NOT_ALLOWED=201
 readonly __NO_SUCH_DIRECTORY=203

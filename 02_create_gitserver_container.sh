@@ -77,26 +77,26 @@ case ${STS} in
     ;;
   ${__INSUFFICIENT_ARGS_STS})
     echo "${__INSUFFICIENT_ARGS}"
-    echo "______ ${LINENO}: Aborting ..."
+    echo "____ ${LINENO}: Aborting ..."
     exit ${STS}
     ;;
   ${__EMPTY_ARGUMENT_NOT_ALLOWED})
     echo "_error Empty arguments not allowed"
-    echo "______ ${LINENO}: Aborting ..."
+    echo "____ ${LINENO}: Aborting ..."
     exit ${STS}
     ;;
   ${__INVALID_VALUE})
     echo "_error Argument has invalid value"
-    echo "______ ${LINENO}: Aborting ..."
+    echo "____ ${LINENO}: Aborting ..."
     exit ${STS}
     ;;
   ${__NO_SUCH_DIRECTORY})
     echo "_error script not running from '${__SCRIPTS_DIRECTORY_NAME}'"
-    echo "______ ${LINENO}: Aborting ..."
+    echo "____ ${LINENO}: Aborting ..."
     exit ${STS}
     ;;
 esac
-echo "______ Set environment variables"; 
+echo "____ Set environment variables"; 
 
 
 fn__ConfirmYN "Create Windows Shortcuts?" && _CREATE_WINDOWS_SHORTCUTS_=${__YES} || _CREATE_WINDOWS_SHORTCUTS_=${__NO}
@@ -120,22 +120,22 @@ fn__CreateDockerComposeFile \
   "${__DOCKER_COMPOSE_FILE_WLS}"
 
 
-echo "______ Created ${__DOCKER_COMPOSE_FILE_WLS}"; 
+echo "____ Created ${__DOCKER_COMPOSE_FILE_WLS}"; 
 
 
 fn__ImageExists \
   "${__CONTAINER_SOURCE_IMAGE_NAME}" \
-  && echo "______ Image ${__CONTAINER_SOURCE_IMAGE_NAME} exist" \
+  && echo "____ Image ${__CONTAINER_SOURCE_IMAGE_NAME} exist" \
   || {
     echo "repo: ${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}"
     fn__PullImageFromRemoteRepository   \
       ${__DOCKER_REPOSITORY_HOST}  \
       ${__GITSERVER_IMAGE_NAME} \
       ${__GITSERVER_IMAGE_VERSION} \
-        && echo "______ Image ${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} pulled from remote docker repository" \
+        && echo "____ Image ${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION} pulled from remote docker repository" \
         || {
-          echo "______ Cannot find image ${__CONTAINER_SOURCE_IMAGE_NAME} [${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}]" 
-          echo "______ Aborting script execution ..." 
+          echo "____ Cannot find image ${__CONTAINER_SOURCE_IMAGE_NAME} [${__DOCKER_REPOSITORY_HOST}/${__GITSERVER_IMAGE_NAME}:${__GITSERVER_IMAGE_VERSION}]" 
+          echo "____ Aborting script execution ..." 
           exit ${__FAILED}
         }
   }
@@ -151,14 +151,14 @@ if [[ $STS -eq ${__YES} ]]; then
   fn__ContainerIsRunning ${__GITSERVER_CONTAINER_NAME} && STS=${__YES} || STS=${__NO}
   if [[ $STS -eq ${__YES} ]]; then
 
-    echo "______ Container ${__GITSERVER_CONTAINER_NAME} Exist and is running ... - nothing needs doing"; 
+    echo "____ Container ${__GITSERVER_CONTAINER_NAME} Exist and is running ... - nothing needs doing"; 
 
   else
     fn__StartContainer ${__GITSERVER_CONTAINER_NAME} && STS=${__YES} || STS=${__NO}
     if [[ $STS -eq ${__DONE} ]]; then
-        echo "______ Container ${__GITSERVER_CONTAINER_NAME} started"; 
+        echo "____ Container ${__GITSERVER_CONTAINER_NAME} started"; 
     else
-        echo "______ Failed to start container ${__GITSERVER_CONTAINER_NAME} - investigate..."; 
+        echo "____ Failed to start container ${__GITSERVER_CONTAINER_NAME} - investigate..."; 
         exit ${__FAILED}
     fi
   fi
@@ -167,9 +167,9 @@ else
   
   fn_DockerComposeUpDetached "${__DOCKER_COMPOSE_FILE_DOS}" "${__GITSERVER_CONTAINER_NAME}" && STS=${__DONE} || STS=${__FAILED}
   if [[ $STS -eq ${__DONE} ]]; then
-    echo "______ Container ${__GITSERVER_CONTAINER_NAME} started"; 
+    echo "____ Container ${__GITSERVER_CONTAINER_NAME} started"; 
   else
-    echo "______ Failed to start container ${__GITSERVER_CONTAINER_NAME} - investigate"; 
+    echo "____ Failed to start container ${__GITSERVER_CONTAINER_NAME} - investigate"; 
     exit ${__FAILED}
   fi
 fi
@@ -180,11 +180,11 @@ fi
     "${__DEBMIN_HOME_DOS}" \
     "${__GITSERVER_SHELL}" \
     "${__DOCKER_COMPOSE_FILE_DOS}" && STS=${__DONE} || STS=${__FAILED}
-  echo "______ Created Windows Shortcuts"; 
+  echo "____ Created Windows Shortcuts"; 
 }
 
-echo "______ Container ${__GITSERVER_CONTAINER_NAME} is running"; 
+echo "____ Container ${__GITSERVER_CONTAINER_NAME} is running"; 
 
-echo "______ ${0} Done"
+echo "____ ${0} Done"
 
 exit ${__SUCCESS}

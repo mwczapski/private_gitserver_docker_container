@@ -414,7 +414,7 @@ function fn__MakeCustomGitShellCommandsDirectory() {
         || STS=${__FAILED}
         '
   [[ $# -lt 3 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "____ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -449,7 +449,7 @@ function fn__CreateCustomGitShellCommandsAndCopyToServer() {
         || STS=${__FAILED}
         '
   [[ $# -lt 5 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "____ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
 
@@ -548,8 +548,8 @@ tar czf \${HOME}/backups/\${repoName}_\${TS} \${repoName}.git || {
   echo "Please cpontact your git server administrator"
   exit \${STS}
 }
-echo "______ Backed up repository \${repoName} to file \${repoName}_\${TS}"
-echo "______ \$(ls -lht --time-style="\${TS_FORMAT}" \${HOME}/backups/\${repoName}_\${TS} | cut -d' ' -f3- )"
+echo "____ Backed up repository \${repoName} to file \${repoName}_\${TS}"
+echo "____ \$(ls -lht --time-style="\${TS_FORMAT}" \${HOME}/backups/\${repoName}_\${TS} | cut -d' ' -f3- )"
 
 exit 0
 EOF
@@ -568,6 +568,6 @@ EOF
     "${_CMD_}" \
       && STS=${__DONE} \
       || STS=${__FAILED}
-  echo "______ Re-established ownership on ${__GIT_USERNAME} directory tree"; 
+  echo "____ Re-established ownership on ${__GIT_USERNAME} directory tree"; 
 
 }

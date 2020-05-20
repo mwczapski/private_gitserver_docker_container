@@ -42,7 +42,7 @@ function fn__InputIsValid() {
         || STS=${__FAILED}
         '
   [[ $# -lt 4 || "${0^^}" == "HELP" ]] && {
-    echo -e "______ Insufficient number of arguments $@\n${lUsage}"
+    echo -e "____ Insufficient number of arguments $@\n${lUsage}"
     return ${__FAILED}
   }
  
@@ -52,18 +52,18 @@ function fn__InputIsValid() {
   local -r pClientIdRSAPubFilePath=${4?"${lUsage}"}
 
   [[ ${#pCanonicalClientGitRemoteRepoName} -lt 2 ]] && {
-    echo "______ Git repository name '${pClientGitRemoteRepoName}' translated to '${pCanonicalClientGitRemoteRepoName}'"
-    echo "______ Git repository name must be at least 2 characters long"
+    echo "____ Git repository name '${pClientGitRemoteRepoName}' translated to '${pCanonicalClientGitRemoteRepoName}'"
+    echo "____ Git repository name must be at least 2 characters long"
     return ${__FAILED}
   }
   [[ ${#pCanonicalClientGitRemoteRepoName} -gt ${pGiterverRemoteRepoNameMaxLen} ]] && {
-    echo "______ Final Git repository name '${pCanonicalClientGitRemoteRepoName}' is longer than the maximum of ${pGiterverRemoteRepoNameMaxLen} characters"
-    echo "______ Git repository name must be no longer than ${pGiterverRemoteRepoNameMaxLen} characters"
+    echo "____ Final Git repository name '${pCanonicalClientGitRemoteRepoName}' is longer than the maximum of ${pGiterverRemoteRepoNameMaxLen} characters"
+    echo "____ Git repository name must be no longer than ${pGiterverRemoteRepoNameMaxLen} characters"
     return ${__FAILED}
   }
 
   [[ -e ${pClientIdRSAPubFilePath} ]] || {
-    echo "______ RSA Public Key '${pClientIdRSAPubFilePath}' not found"
+    echo "____ RSA Public Key '${pClientIdRSAPubFilePath}' not found"
     return ${__FAILED}
   }
 
@@ -95,7 +95,7 @@ fn__InputIsValid \
   ${lCanonicalClientGitRemoteRepoName} \
   ${__GITSERVER_REMOTE_REPO_NAME_MAX_LEN} \
   ${pClientIdRSAPubFilePath} || {
-    echo "______ Aborting ..."
+    echo "____ Aborting ..."
     exit ${__FAILED}
   }
 
@@ -105,15 +105,15 @@ fn__InputIsValid \
 declare lClientIdRSAPub=""
 lClientIdRSAPub=$(cat ${pClientIdRSAPubFilePath})
 [[ ${lClientIdRSAPub// */} == "ssh-rsa" ]] || {
-  echo "______ Public key in file ${pClientIdRSAPubFilePath} does not appear to be the RSA public key - aborting"
+  echo "____ Public key in file ${pClientIdRSAPubFilePath} does not appear to be the RSA public key - aborting"
   exit ${__FAILED}
 }
 
 
 # confirm values
 #
-echo "______ Set to create remote git repository ${lCanonicalClientGitRemoteRepoName}" 
-echo "______ Set to use public key for ${lClientIdRSAPub//* /}" 
+echo "____ Set to create remote git repository ${lCanonicalClientGitRemoteRepoName}" 
+echo "____ Set to use public key for ${lClientIdRSAPub//* /}" 
 fn__ConfirmYN "Proceed?" && true || {
   echo "_____ Chose NO - Aborting ..."
   exit ${__FAILED}
@@ -139,13 +139,13 @@ fn__DoesRepoAlreadyExist \
   ${__GIT_USERNAME} \
   ${__GITSERVER_SHELL} \
     && {
-      echo "______ Git Repository ${lCanonicalClientGitRemoteRepoName} already exists - aborting"
+      echo "____ Git Repository ${lCanonicalClientGitRemoteRepoName} already exists - aborting"
       exit
     } \
     || STS=$? # can be __NO (good) or __EXECUTION_ERROR (bad)
 
   [[ ${STS} -eq ${__EXECUTION_ERROR} ]] && {
-      echo "______ Failed to determine whether Git Repository ${lCanonicalClientGitRemoteRepoName} already exists - aborting"
+      echo "____ Failed to determine whether Git Repository ${lCanonicalClientGitRemoteRepoName} already exists - aborting"
       exit 
   }
 
@@ -157,10 +157,10 @@ fn__CreateNewClientGitRepositoryOnRemote \
   ${__GITSERVER_SHELL} \
   ${__GITSERVER_REPOS_ROOT} \
     && {
-      echo "______ Created remote repository ${lCanonicalClientGitRemoteRepoName}"
+      echo "____ Created remote repository ${lCanonicalClientGitRemoteRepoName}"
       exit ${__DONE}
     } \
     || {
-      echo "______ Failed to create remote repository ${lCanonicalClientGitRemoteRepoName}"
+      echo "____ Failed to create remote repository ${lCanonicalClientGitRemoteRepoName}"
       exit ${__FAILED}
     }

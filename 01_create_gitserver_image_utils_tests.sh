@@ -299,7 +299,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -321,7 +321,7 @@ then
 
     ${functionName} "" "" "" "" "" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -348,7 +348,7 @@ then
 
     ${functionName} "${pContainerName}" "${pGitUsername}" "${pGuestHome}" "${pContainerShell}" "${pGitReposRoot}" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -375,7 +375,7 @@ then
 
     ${functionName} "${pContainerName}" "${pGitUsername}" "${pGuestHome}" "${pContainerShell}" "${pGitReposRoot}" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -429,7 +429,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -451,7 +451,7 @@ then
 
     ${functionName} "" "" "" "" "" "" "" "" "" "" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -496,7 +496,7 @@ then
         "${lrDockerfilePath}" \
         "${lrNeedsRebuilding}" && actualStatusResult=$? || actualStatusResult=$?
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -568,7 +568,7 @@ then
         "${lrDockerfilePath}" \
         "${lrNeedsRebuilding}" && actualStatusResult=$? || actualStatusResult=$?
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -643,7 +643,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -665,7 +665,7 @@ then
 
     ${functionName} "" "" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -689,7 +689,7 @@ then
 
     ${functionName} "${pDebminHome}" "${pGitserverShell}" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -713,7 +713,7 @@ then
 
     ${functionName} "${pDebminHome}" "${pGitserverShell}" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -739,7 +739,7 @@ then
 
       ${functionName} "${pDebminHome}" "${pGitserverShell}" && actualStatusResult=$? || actualStatusResult=$?
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -797,7 +797,7 @@ then
 
       ${functionName} "${pDebminHome}" "${pGitserverShell}" && actualStatusResult=$? || actualStatusResult=$?
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -876,11 +876,11 @@ then
   testIntent="${functionName} will return __FAILED and '______ Insufficient number of arguments'"
   function fn__SetEnvironmentVariables_test_001 {
 
-    expectedStringResult="______ Insufficient number of arguments"
+    expectedStringResult="____ Insufficient number of arguments"
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "" "" "" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -905,7 +905,7 @@ then
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "" "" "" "" "" "" "" "" "" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -930,7 +930,7 @@ then
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrScriptDirectoryName}" "" "" "" "" "" "" "" "") && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -955,7 +955,7 @@ then
     expectedStatusResult=${__FAILED}
 
     actualStringResult=$( ${functionName} "${lrScriptDirectoryName}" "${lrGitserverImageName}" "" "" "" "" "" "" "" "" "" "" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -996,7 +996,7 @@ then
                               "lDockerfilePath" \
                               "lRemoveContainerOnStop" \
                               "lNeedsRebuilding" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1037,7 +1037,7 @@ then
                               "lDockerfilePath" \
                               "lRemoveContainerOnStop" \
                               "lNeedsRebuilding" ) && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1077,7 +1077,7 @@ then
         "lDockerfilePath" \
         "lRemoveContainerOnStop" \
         "lNeedsRebuilding" && actualStatusResult=$? || actualStatusResult=$?
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -1148,7 +1148,7 @@ then
         "lDockerfilePath" \
         "lRemoveContainerOnStop" \
         "lNeedsRebuilding" ) && actualStatusResult=$? || actualStatusResult=$?
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -1190,7 +1190,7 @@ then
         "lDockerfilePath" \
         "lRemoveContainerOnStop" \
         "lNeedsRebuilding" && actualStatusResult=$? || actualStatusResult=$?
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
       actualStringResult=""
 
       assessReturnStatusAndStdOut \
@@ -1277,7 +1277,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -1302,8 +1302,8 @@ echo ${_TEMP_DIR_}
 # rm -Rf ${_TEMP_DIR_}
 # rm -rf ${_TEMP_DIR_PREFIX}[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
 
-echo "______ Executed $((iSuccessResults+iFailureResults)) tests"
-echo "______ ${iSuccessResults} tests were successful"
-echo "______ ${iFailureResults} tests failed"
+echo "____ Executed $((iSuccessResults+iFailureResults)) tests"
+echo "____ ${iSuccessResults} tests were successful"
+echo "____ ${iFailureResults} tests failed"
 
 exit ${iFailureResults}

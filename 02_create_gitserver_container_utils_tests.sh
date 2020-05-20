@@ -126,7 +126,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -155,7 +155,7 @@ then
 
     ${functionName} "" "" "" "" "" "" "" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -193,7 +193,7 @@ then
         && actualStatusResult=$? || actualStatusResult=$?
         
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -233,7 +233,7 @@ then
           && actualStatusResult=$? || actualStatusResult=$?
           
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -299,7 +299,7 @@ then
           && actualStatusResult=$? || actualStatusResult=$?
           
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -360,7 +360,7 @@ then
 
     ${functionName} && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -381,7 +381,7 @@ then
     expectedStatusResult=${__EMPTY_ARGUMENT_NOT_ALLOWED}
 
     ${functionName} "" "" "" "" "" "" "" "" "" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
     actualStringResult=""
 
     assessReturnStatusAndStdOut \
@@ -412,7 +412,7 @@ then
     expectedStatusResult=${__EMPTY_ARGUMENT_NOT_ALLOWED}
 
     ${functionName} "${lrDebminHome}" "${lrDebminHome}" "" "" "" "" "" "" "" && actualStatusResult=$? || actualStatusResult=$?
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -443,7 +443,7 @@ then
 
     ${functionName} "${lrDebminHome}" "${lrGitserverUsername}" "${lrGitserverImageNameAndVersion}" "lDebminHomeOut" "" "" "" "" "" "" "" "" && actualStatusResult=$? || actualStatusResult=$?
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -484,7 +484,7 @@ then
       "lContaierSourceImageNameAndVersion" && actualStatusResult=$? || actualStatusResult=$?
 
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -525,7 +525,7 @@ then
       "lContaierSourceImageNameAndVersion" && actualStatusResult=$? || actualStatusResult=$?
 
     actualStringResult=""
-    # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+    # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
     assessReturnStatusAndStdOut \
       "${functionName}" \
@@ -638,7 +638,7 @@ then
         "lDockerComposeFileDOSOut" \
         "lContaierSourceImageNameAndVersion" && actualStatusResult=$? || actualStatusResult=$?
 
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
       actualStringResult=""
 
       assessReturnStatusAndStdOut \
@@ -772,7 +772,7 @@ fi
 
       ${functionName} && actualStatusResult=$? || actualStatusResult=$?
       actualStringResult=""
-      # [[ ${actualStringResult} ]] && echo "______ ${LINENO}: ${functionName}: ${actualStringResult}" 
+      # [[ ${actualStringResult} ]] && echo "____ ${LINENO}: ${functionName}: ${actualStringResult}" 
 
       assessReturnStatusAndStdOut \
         "${functionName}" \
@@ -797,8 +797,8 @@ TEMPLATES----------------------------------------------------------
 rm -Rf ${_TEMP_DIR_}
 rm -rf ${_TEMP_DIR_PREFIX}[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
 
-echo "______ Executed $((iSuccessResults+iFailureResults)) tests"
-echo "______ ${iSuccessResults} tests were successful"
-echo "______ ${iFailureResults} tests failed"
+echo "____ Executed $((iSuccessResults+iFailureResults)) tests"
+echo "____ ${iSuccessResults} tests were successful"
+echo "____ ${iFailureResults} tests failed"
 
 exit ${iFailureResults}

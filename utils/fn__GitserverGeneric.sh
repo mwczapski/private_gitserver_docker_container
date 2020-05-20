@@ -149,7 +149,7 @@ function fn__DoesRepoAlreadyExist() {
     }
 
   lCommandOutput=$( ${lCommand}) || {
-      echo "______ Failed to execute ${lCommand} - Status: $? - aborting"
+      echo "____ Failed to execute ${lCommand} - Status: $? - aborting"
       exit
     }
 # echo "xxxxxx ${lCommandOutput}"
@@ -360,7 +360,7 @@ function fn__UpdateOwnershipOfNonRootUserResources() {
   chown -R ${pGitUsername}:${pGitUsername} ${pGuestHome}
   chown -R ${pGitUsername}:${pGitUsername} ${pGitReposRoot}
   "
-  echo "______ Updated ownership of ${pGitUsername} resources on ${pContainerName}"
+  echo "____ Updated ownership of ${pGitUsername} resources on ${pContainerName}"
 }
 
 
@@ -426,10 +426,10 @@ function fn__GetRemoteGitRepoName() {
 
   if [[ ${STS} -eq ${__FAILED} ]]
   then
-    echo "______ Provided input did not result in a valid identifier - identifier based on input was '${outValidValue}'"
+    echo "____ Provided input did not result in a valid identifier - identifier based on input was '${outValidValue}'"
     return ${__FAILED}
   fi
-  echo "______ Sanitized Git Repository name will be '${outValidValue}'"
+  echo "____ Sanitized Git Repository name will be '${outValidValue}'"
 
   fn__ConfirmYN "Confirm '${outValidValue}' as Git Repository name? " && STS=$? || STS=$?
   if [[ ${STS} -eq ${__NO} ]]

@@ -58,13 +58,13 @@ function fn__RunContainerDetached() {
 fn__ContainerExists ${__CONTAINER_NAME} && STS=0 || STS=1
 if [[ $STS -eq 0 ]]; then
 
-    echo "______ Container ${__CONTAINER_NAME} Exist - will start it"; 
+    echo "____ Container ${__CONTAINER_NAME} Exist - will start it"; 
     fn__StartContainer ${__CONTAINER_NAME} && STS=0 || STS=1
 
     if [[ $STS -eq 0 ]]; then
-        echo "______ Container ${__CONTAINER_NAME} started"; 
+        echo "____ Container ${__CONTAINER_NAME} started"; 
     else
-        echo "______ Failed to start container ${__CONTAINER_NAME} - investigate..."; 
+        echo "____ Failed to start container ${__CONTAINER_NAME} - investigate..."; 
         exit;
     fi
 fi

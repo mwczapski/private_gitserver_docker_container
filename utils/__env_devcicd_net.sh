@@ -34,14 +34,14 @@ __DEVCICD_SUBNET_GATEWAY=${__DEVCICD_NET_PREFIX}.1
 
 fn__DockerNetworkExists \
   ${__DEVCICD_NET} \
-  && echo "______ Network '${__DEVCICD_NET}' exists. Will use it." \
+  && echo "____ Network '${__DEVCICD_NET}' exists. Will use it." \
   ||                              \
     fn__CreateDockerNetwork       \
       ${__DEVCICD_NET}            \
       ${__DEVCICD_SUBNET_ADDRESS} \
       ${__DEVCICD_SUBNET_GATEWAY} \
         || {
-          echo "______ Failed to create network ${__DEVCICD_NET}. Script cannot continue."
+          echo "____ Failed to create network ${__DEVCICD_NET}. Script cannot continue."
           exit
         }
 
