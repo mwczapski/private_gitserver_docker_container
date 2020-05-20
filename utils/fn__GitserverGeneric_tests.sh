@@ -2,7 +2,7 @@
 # #############################################
 # The MIT License (MIT)
 #
-# Copyright Â© 2020 Michael Czapski
+# Copyright © 2020 Michael Czapski
 # #############################################
 
 declare -ur fn__GitserverGeneric_tests="SOURCED"
