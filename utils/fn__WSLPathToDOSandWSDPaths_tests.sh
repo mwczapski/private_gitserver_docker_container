@@ -5,6 +5,7 @@
 # #############################################
 
 declare -u fn__WSLPathToDOSandWSDPaths_tests="SOURCED"
+echo "INFO fn__WSLPathToDOSandWSDPaths_tests"
 
 [[ ${__env_GlobalConstants} ]] || source ./utils/__env_GlobalConstants.sh
 [[ ${fn__WSLPathToDOSandWSDPaths} ]] || source ./utils/fn__WSLPathToDOSandWSDPaths.sh

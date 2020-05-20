@@ -4,6 +4,9 @@
 # Copyright © 2020 Michael Czapski
 # #############################################
 
+declare -ur fn__SSHInContainerUtils_tests="SOURCED"
+echo "INFO fn__SSHInContainerUtils_tests"
+
 [[ ${__env_GlobalConstants} ]] || source ./utils/__env_GlobalConstants.sh
 [[ ${fn__UtilityGeneric} ]] || source ./utils/fn__UtilityGeneric.sh
 [[ ${fn__DockerGeneric} ]] || source ./utils/fn__DockerGeneric.sh
@@ -279,8 +282,7 @@ then
   if [[ ${STS} -eq ${__FAILED} ]]
   then
     echo "!!!! ${0}:${LINENO}: fn__GetSSHIdRsaPubKeyFromClientContainer returned error '${__GIT_CLIENT_ID_RSA_PUB_}'"
-    echo "!!!! ${0}:${LINENO}: Aborting test run"
-    exit ${__FAILED}
+    echo "!!!! ${0}:${LINENO}: Most tests will fail"
   fi
 
 

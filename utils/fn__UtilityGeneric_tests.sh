@@ -5,6 +5,7 @@
 # #############################################
 
 declare -u fn__UtilityGeneric_tests="SOURCED"
+echo "INFO fn__UtilityGeneric_tests"
 
 [[ ${__env_GlobalConstants} ]] || source ./utils/__env_GlobalConstants.sh
 [[ ${fn__UtilityGeneric} ]] || source ./utils/fn__UtilityGeneric.sh

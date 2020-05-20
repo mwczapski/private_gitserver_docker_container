@@ -6,6 +6,7 @@
 # #############################################
 
 declare -ur fn__GitserverGeneric_tests="SOURCED"
+echo "INFO fn__GitserverGeneric_tests"
 
 # common environment variable values and utility functions
 #

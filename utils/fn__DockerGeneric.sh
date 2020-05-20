@@ -330,7 +330,6 @@ function fn__ExecCommandInContainer() {
   local pContainerShell=${3?"${lUsage}"}
   local pContainerCommand=${4?"${lUsage}"}
 
-  # ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" 2>/dev/null && STS=$? || STS=$?
   ${__DOCKER_EXE} exec -itu ${pContainerUsername} ${pContainerName} ${pContainerShell} -c "${pContainerCommand}" && STS=$? || STS=$?
   [[ ${STS} -eq ${__SUCCESS} ]] && STS=${__DONE}|| STS=${__FAILED}
 
@@ -359,7 +358,7 @@ function fn__ExecCommandInContainerGetOutput() {
   local -n pOutputCaptureVarName=${5?"${lUsage}"}
 
   pOutputCaptureVarName=$( ${__DOCKER_EXE} exec -u ${pContainerUsername} ${pContainerName} ${pContainerShell} -lc "${pContainerCommand}" 2>&1 )  && STS=$? || STS=$?
-  [[ ${STS} -eq 0 ]] && STS=${__DONE}|| STS=${__FAILED}
+  [[ ${STS} -eq ${__SUCCESS} ]] && STS=${__DONE}|| STS=${__FAILED}
   return ${STS}
 }
 

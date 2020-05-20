@@ -27,14 +27,14 @@ __DEVCICD_SUBNET_GATEWAY=${__DEVCICD_NET_PREFIX}.1
 
 [[ ${__DOCKER_COMPOSE_NO_EXT:-NO} == "NO" ]] \
   && {
-    echo "fn__DockerGeneric.sh is a pre-requisite for ${0} - sourcing it"
+    # echo "fn__DockerGeneric.sh is a pre-requisite for ${0} - sourcing it"
     source ./utils/fn__DockerGeneric.sh
   } \
   || true
 
 fn__DockerNetworkExists \
   ${__DEVCICD_NET} \
-  && echo "____ Network '${__DEVCICD_NET}' exists. Will use it." \
+  && echo "____ Network '${__DEVCICD_NET}' exists. Will use it." >/dev/null \
   ||                              \
     fn__CreateDockerNetwork       \
       ${__DEVCICD_NET}            \
