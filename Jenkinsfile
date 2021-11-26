@@ -1,10 +1,9 @@
 pipeline {
-  agent {
-    label 'centos8'
-  }
+  agent any
   stages {
-    stage('error') {
+    stage('') {
       steps {
+        echo 'Afters'
         sh 'env | sort'
       }
     }
