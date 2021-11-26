@@ -1,7 +1,8 @@
 pipeline {
-  agent {
-    label 'centos8'
-  }
+  agent any
+//   agent {
+//     label 'centos8'
+//   }
   stages {
     stage('error') {
       steps {
