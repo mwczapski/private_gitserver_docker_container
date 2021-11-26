@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'openjdk:8-oraclelinux8'
-    }
-
-  }
+  agent any
   stages {
     stage('error') {
       steps {
