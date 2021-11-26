@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('error') {
       steps {
-        echo 'I am here again'
+        sh 'env | sort'
       }
     }
 
